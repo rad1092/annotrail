@@ -20,10 +20,11 @@ SHA-256, then extract it into a folder you control. The app includes Java:
 - Windows: open `Annotrail/Annotrail.exe`.
 - Linux: run `Annotrail/bin/Annotrail` in a desktop session.
 
-macOS bundle build `2` corresponds to product version `0.1.1` (shown by `--version`).
-These packages are unsigned and not notarized. OS trust prompts
-may apply; no security protection needs to be disabled. Headless systems can
-use the included `annotrail-0.1.1.jar` with Java 17+.
+macOS bundle build `3` corresponds to product version `0.1.2` (shown by `--version`).
+The macOS app uses an ad-hoc signature to verify package integrity. It is not
+Developer ID signed or notarized; Windows launchers are not Authenticode signed.
+OS trust prompts may apply; no security protection needs to be disabled. Headless systems can
+use the included `annotrail-0.1.2.jar` with Java 17+.
 
 To remove the app, close it and delete only the extracted app folder. No service,
 login item, browser extension, global configuration, or hidden user database is
@@ -80,7 +81,7 @@ Annotrail does not open or modify the Zotero database. See the
 Java 17+ is required for the standalone JAR:
 
 ```sh
-java -Xmx512m -jar annotrail-0.1.1.jar analyze \
+java -Xmx512m -jar annotrail-0.1.2.jar analyze \
   --old annotated.pdf --new revision.pdf --plan plan.json
 ```
 
@@ -97,7 +98,7 @@ IDs above illustrate the format; always use the actual IDs in your plan. Every
 annotation must have a decision. Then:
 
 ```sh
-java -Xmx512m -jar annotrail-0.1.1.jar export \
+java -Xmx512m -jar annotrail-0.1.2.jar export \
   --old annotated.pdf --new revision.pdf --plan plan.json \
   --choices choices.json --output reviewed.pdf --report reconciliation.json
 ```
@@ -105,8 +106,8 @@ java -Xmx512m -jar annotrail-0.1.1.jar export \
 Alternatively, `--accept-confident` explicitly accepts unique exact matches and
 skips all unresolved entries. It is convenient for a reviewed plan, not a claim
 that unattended transfer is semantically safe. The engine reanalyzes inputs
-before export and rejects a stale or edited plan. After upgrading from 0.1.0,
-analyze again to create a 0.1.1 review plan.
+before export and rejects a stale or edited plan. After upgrading from an earlier version,
+analyze again to create a 0.1.2 review plan.
 
 Exit codes: `0` complete, `1` analysis has entries needing review, `2` input/output
 or resource error, `130` cooperative cancellation. Every output must be a new
@@ -132,8 +133,8 @@ JDK 17+ and Maven 3.9+:
 
 ```sh
 mvn -B verify
-java -Xmx512m -jar target/annotrail-0.1.1.jar --help
-java -Xmx512m -jar target/annotrail-0.1.1.jar gui
+java -Xmx512m -jar target/annotrail-0.1.2.jar --help
+java -Xmx512m -jar target/annotrail-0.1.2.jar gui
 ```
 
 `python3 scripts/package.py --skip-build` creates a runtime-included app image

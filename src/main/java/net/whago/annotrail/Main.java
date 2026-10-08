@@ -17,7 +17,7 @@ import java.util.Set;
 
 /** File-first command line. No input file is used as an output. */
 public final class Main {
-    public static final String VERSION = "0.1.1";
+    public static final String VERSION = "0.1.2";
     public static final Gson JSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().setStrictness(Strictness.STRICT).create();
     private Main() {}
 
@@ -183,7 +183,7 @@ public final class Main {
     }
     private static void help() {
         System.out.println("""
-Annotrail 0.1.1 — reviewed PDF annotation transfer across revisions
+Annotrail 0.1.2 — reviewed PDF annotation transfer across revisions
 
   annotrail gui
   annotrail analyze --old annotated.pdf --new revised.pdf --plan plan.json

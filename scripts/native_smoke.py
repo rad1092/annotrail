@@ -10,7 +10,7 @@ import tempfile
 
 root = Path(__file__).resolve().parents[1]
 java = Path(os.environ['JAVA_HOME']) / 'bin' / ('java.exe' if os.name == 'nt' else 'java')
-jar = root / 'target' / 'annotrail-0.1.1.jar'
+jar = root / 'target' / 'annotrail-0.1.2.jar'
 parent = root / 'target' / 'native-smoke'
 parent.mkdir(parents=True, exist_ok=True)
 with tempfile.TemporaryDirectory(prefix='run-', dir=parent) as temporary:

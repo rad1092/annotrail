@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Exercise the distributable JAR or extracted native app, using synthetic PDFs."""
-import argparse, hashlib, json, os, pathlib, platform, subprocess, tempfile, zipfile
+import argparse, hashlib, json, os, pathlib, platform, subprocess, tempfile
+from package_integrity import extract_regular_zip, verify_macos_app
 p=argparse.ArgumentParser()
 p.add_argument('--archive',type=pathlib.Path)
 a=p.parse_args()
 root=pathlib.Path(__file__).resolve().parents[1]
 java=pathlib.Path(os.environ['JAVA_HOME'])/'bin'/('java.exe' if os.name=='nt' else 'java')
-jar=root/'target'/'annotrail-0.1.1.jar'
+jar=root/'target'/'annotrail-0.1.2.jar'
 (root/'target').mkdir(exist_ok=True)
 with tempfile.TemporaryDirectory(prefix='annotrail-smoke-',dir=root/'target') as td:
     tmp=pathlib.Path(td)
@@ -14,22 +15,17 @@ with tempfile.TemporaryDirectory(prefix='annotrail-smoke-',dir=root/'target') as
     subprocess.run([str(java),'-Djava.awt.headless=true','-cp',os.pathsep.join([str(root/'target'/'test-classes'),str(jar)]),'net.whago.annotrail.FixtureGenerator',str(fixture)],check=True)
     command=[str(java),'-Djava.awt.headless=true','-Xmx512m','-jar',str(jar)]
     if a.archive:
-        with zipfile.ZipFile(a.archive) as z:
-            for info in z.infolist():
-                member=pathlib.PurePosixPath(info.filename)
-                assert not member.is_absolute() and '..' not in member.parts
-            z.extractall(tmp/'installed')
-            if os.name!='nt':
-                for info in z.infolist():
-                    mode=(info.external_attr>>16)&0o777
-                    if mode: (tmp/'installed'/info.filename).chmod(mode)
+        extract_regular_zip(a.archive, tmp/'installed')
+        if platform.system() == 'Darwin':
+            verify_macos_app(tmp/'installed'/'Annotrail.app')
+            print('PASS: extracted macOS runtime and app strict ad-hoc signature verification')
         rel={'Darwin':'Annotrail.app/Contents/MacOS/Annotrail','Windows':'Annotrail/Annotrail.exe','Linux':'Annotrail/bin/Annotrail'}[platform.system()]
         command=[str(tmp/'installed'/rel)]
     def run(args,code=0):
         r=subprocess.run(command+list(map(str,args)),cwd=tmp,text=True,capture_output=True,timeout=90)
         assert r.returncode==code,(r.returncode,r.stdout,r.stderr)
         return r
-    assert '0.1.1' in run(['--version']).stdout
+    assert '0.1.2' in run(['--version']).stdout
     run(['--help'])
     old,new=fixture/'old.pdf',fixture/'new.pdf'
     hashes=[hashlib.sha256(x.read_bytes()).hexdigest() for x in (old,new)]

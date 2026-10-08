@@ -23,6 +23,8 @@ jobs:
       - name: Install Linux virtual display for native window verification
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y xvfb
+      - name: Package integrity regression tests
+        run: python -B -m unittest discover -s scripts -p 'test_package_integrity.py' -v
       - name: Core, CLI and desktop review-state tests
         run: mvn -B verify
       - name: Distributable JAR workflow
