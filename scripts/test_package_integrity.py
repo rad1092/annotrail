@@ -1,4 +1,5 @@
 """Regression tests for ZIP type changes and macOS sealed-resource integrity."""
+import errno
 import os
 from pathlib import Path
 import platform
@@ -29,9 +30,14 @@ class PackageFixture:
     def link(self, path, target):
         path.parent.mkdir(parents=True, exist_ok=True)
         try:
-            path.symlink_to(target)
+            # Windows stores the target text verbatim; forward slashes create
+            # a reparse point which later fails strict resolve with WinError 123.
+            native_target = str(Path(target))
+            path.symlink_to(native_target, target_is_directory=(path.parent / native_target).is_dir())
         except OSError as error:
-            self.skipTest(f'This host does not permit test symlinks: {error}')
+            if getattr(error, 'winerror', None) == 1314 or error.errno in (errno.ENOSYS, errno.ENOTSUP):
+                self.skipTest(f'This host does not permit test symlinks: {error}')
+            raise
 
 
 class PortableArchiveTests(PackageFixture, unittest.TestCase):
@@ -85,6 +91,17 @@ class PortableArchiveTests(PackageFixture, unittest.TestCase):
         self.assertEqual(alias.read_text(), target.read_text())
         self.assertFalse(alias.is_symlink())
 
+    def test_windows_runtime_legal_layout(self):
+        app = self.root / 'WindowsApp'
+        target = app / 'runtime/legal/java.base/LICENSE'
+        target.parent.mkdir(parents=True)
+        target.write_text('synthetic Windows fixture')
+        alias = app / 'runtime/legal/java.xml/LICENSE'
+        self.link(alias, '../java.base/LICENSE')
+        self.assertEqual(materialize_runtime_legal_links(app, 'runtime/legal'), 1)
+        self.assertEqual(alias.read_text(), target.read_text())
+        self.assertFalse(alias.is_symlink())
+
     def test_archive_refuses_link_in_sealed_tree(self):
         self.link(self.legal / 'java.desktop/LICENSE', '../java.base/LICENSE')
         archive = self.root / 'refused.zip'
@@ -107,7 +124,7 @@ class PortableArchiveTests(PackageFixture, unittest.TestCase):
             self.assertEqual(stat.S_IMODE((destination / 'Example.app/launcher').stat().st_mode), 0o755)
 
     def test_extract_rejects_paths_and_symlinks(self):
-        for index, name in enumerate(('../escape', '/absolute', 'C:/drive', 'a\\b', 'legal-link')):
+        for index, name in enumerate(('../escape', '/absolute', 'C:/drive', 'legal-link')):
             with self.subTest(name=name):
                 archive = self.root / f'unsafe-{index}.zip'
                 entry = zipfile.ZipInfo(name)
@@ -118,6 +135,24 @@ class PortableArchiveTests(PackageFixture, unittest.TestCase):
                     output.writestr(entry, b'synthetic')
                 with self.assertRaises(ValueError):
                     extract_regular_zip(archive, self.root / f'unsafe-{index}')
+
+    def test_extract_rejects_raw_backslash_and_nul_names(self):
+        # Construct valid bytes first, then patch both directory/header names.
+        # ZipInfo would sanitize a malformed name before writing on Windows.
+        for index, raw_name in enumerate((b'a\\b', b'a\x00b')):
+            with self.subTest(raw_name=raw_name):
+                archive = self.root / f'raw-name-{index}.zip'
+                with zipfile.ZipFile(archive, 'w') as output:
+                    output.writestr('a/b', b'synthetic')
+                contents = archive.read_bytes()
+                self.assertEqual(contents.count(b'a/b'), 2)
+                archive.write_bytes(contents.replace(b'a/b', raw_name))
+                with zipfile.ZipFile(archive) as source:
+                    self.assertEqual(source.infolist()[0].orig_filename, raw_name.decode('ascii'))
+                destination = self.root / f'raw-name-{index}'
+                with self.assertRaises(ValueError):
+                    extract_regular_zip(archive, destination)
+                self.assertEqual(list(destination.iterdir()), [])
 
     def test_extract_rejects_normalized_duplicate(self):
         archive = self.root / 'duplicate.zip'

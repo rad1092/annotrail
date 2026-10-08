@@ -118,6 +118,11 @@ def extract_regular_zip(archive_path: Path, destination: Path) -> None:
     with zipfile.ZipFile(archive_path) as archive:
         seen = set()
         for entry in archive.infolist():
+            # ZipInfo normalizes Windows separators and truncates NULs even
+            # while reading. Inspect the on-disk name before that normalization.
+            raw_name = entry.orig_filename
+            if '\\' in raw_name or '\x00' in raw_name:
+                raise ValueError(f'Unsafe raw ZIP entry: {raw_name!r}')
             member = PurePosixPath(entry.filename)
             mode = entry.external_attr >> 16
             kind = stat.S_IFMT(mode)

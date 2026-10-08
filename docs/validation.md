@@ -119,7 +119,7 @@ succeed. The extracted-install workflow repeats verification before launching.
 Local validation on the Mac above passed:
 
 - 72/72 JUnit tests, with no failures or skipped tests.
-- 11/11 packaging tests in both normal and Python `-O` modes. These reproduce
+- 13/13 packaging tests in both normal and Python `-O` modes. These reproduce
   the original post-signing link-flattening failure, verify the corrected round
   trip, and reject altered license resources and JAR payloads.
 - Independently extracted real 0.1.2 ZIP: runtime and outer app passed
@@ -136,3 +136,9 @@ Windows hosts unable to create test symlinks explicitly skip affected cases.
 Executed CI results are linked in the release notes. External OS mouse/keyboard
 input and the native file chooser remain untested (zero such inputs). Ad-hoc
 integrity verification establishes neither publisher identity nor notarization.
+
+The initial 0.1.2 Windows CI exposed non-native symlink targets in the new
+test fixtures and Python ZIP-name normalization. The fixtures now use native
+link targets and byte-exact malformed ZIP names; extraction checks the raw
+name before normalization. Backslash/NUL rejection and the Windows runtime
+layout are covered. Packaged license paths also match the notice links.

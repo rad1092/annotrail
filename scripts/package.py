@@ -27,7 +27,7 @@ with tempfile.TemporaryDirectory(prefix='package-input-',dir=root/'target') as t
 shutil.copy2(jar,dist/jar.name)
 for file in ('README.md','LICENSE','NOTICE','THIRD_PARTY_NOTICES.md'):
     shutil.copy2(root/file,dist/file)
-shutil.copytree(root/'docs'/'licenses',dist/'licenses',dirs_exist_ok=True)
+shutil.copytree(root/'docs'/'licenses',dist/'docs'/'licenses',dirs_exist_ok=True)
 # Nothing inside the app may change after this final seal. jlink legal links
 # must become regular files BEFORE signing, matching our portable ZIP format.
 if platform.system() == 'Darwin':
@@ -41,7 +41,7 @@ name=f'annotrail-0.1.2-{platform.system().lower()}-{platform.machine().lower()}.
 archive=dist/name
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
     add_regular_tree(z, image, dist)
-    add_regular_tree(z, dist/'licenses', dist)
+    add_regular_tree(z, dist/'docs'/'licenses', dist)
     for file in ('annotrail-0.1.2.jar','README.md','LICENSE','NOTICE','THIRD_PARTY_NOTICES.md'):
         add_regular_tree(z, dist/file, dist)
 if platform.system() == 'Darwin':
