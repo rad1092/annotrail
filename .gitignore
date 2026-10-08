@@ -1,0 +1,8 @@
+target/
+.local/
+.cache/
+.tools/
+.repository/
+dist/
+.DS_Store
+*.log

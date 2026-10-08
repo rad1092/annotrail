@@ -1,0 +1,462 @@
+{
+  "audited_at": "2026-10-08",
+  "dependencies": [
+    {
+      "coordinate": "org.apache.pdfbox:pdfbox:3.0.8",
+      "jar_sha256": "97647cfbde61ebcfc06b4cf8c9b0ffcaaee073396eceb4a7f6836a9b9128903c",
+      "jar_maven_central_url": "https://repo.maven.apache.org/maven2/org/apache/pdfbox/pdfbox/3.0.8/pdfbox-3.0.8.jar",
+      "documents": [
+        {
+          "path": "pdfbox-3.0.8/LICENSE",
+          "size_bytes": 60319,
+          "sha256": "0e03b5901cca6833627e6cd8c74e8a6614b2677664bf4f15f15d455808d8c373",
+          "source_jar_entry": "META-INF/LICENSE"
+        },
+        {
+          "path": "pdfbox-3.0.8/NOTICE",
+          "size_bytes": 855,
+          "sha256": "229829a0ea844dee29ce02015f3675f0fc443256f393778d6d8ba7340d71dc03",
+          "source_jar_entry": "META-INF/NOTICE"
+        },
+        {
+          "path": "pdfbox-3.0.8/pom.xml",
+          "size_bytes": 59250,
+          "sha256": "1acfce718edc900dff75b17afd44272b022a4f0e914adbe76531df56862403dd",
+          "source": "published Maven POM"
+        }
+      ]
+    },
+    {
+      "coordinate": "org.apache.pdfbox:fontbox:3.0.8",
+      "jar_sha256": "a1915c24e3edbe0ecec93896dfbf6d41427810b663ade97bd4e8bae86ec3fdab",
+      "jar_maven_central_url": "https://repo.maven.apache.org/maven2/org/apache/pdfbox/fontbox/3.0.8/fontbox-3.0.8.jar",
+      "documents": [
+        {
+          "path": "fontbox-3.0.8/LICENSE",
+          "size_bytes": 18147,
+          "sha256": "f01ba19b3ca5d948d28e8d504c94ad4867ef2946153c6531d10874712e9d510c",
+          "source_jar_entry": "META-INF/LICENSE"
+        },
+        {
+          "path": "fontbox-3.0.8/NOTICE",
+          "size_bytes": 356,
+          "sha256": "51fd9b39da2a58365fd34637b3aeeb5d403a7c63a4d38cb8ec29b8035296e9e0",
+          "source_jar_entry": "META-INF/NOTICE"
+        },
+        {
+          "path": "fontbox-3.0.8/pom.xml",
+          "size_bytes": 9969,
+          "sha256": "17805de8dae9e80519661dd1c0a623d699590f212ceccdb1dc9852733f1ae96f",
+          "source": "published Maven POM"
+        }
+      ]
+    },
+    {
+      "coordinate": "org.apache.pdfbox:pdfbox-io:3.0.8",
+      "jar_sha256": "36a0e04001010b4c764857817412b96339930b19755e728959805cc0352061b2",
+      "jar_maven_central_url": "https://repo.maven.apache.org/maven2/org/apache/pdfbox/pdfbox-io/3.0.8/pdfbox-io-3.0.8.jar",
+      "documents": [
+        {
+          "path": "pdfbox-io-3.0.8/LICENSE",
+          "size_bytes": 11358,
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "source_jar_entry": "META-INF/LICENSE"
+        },
+        {
+          "path": "pdfbox-io-3.0.8/NOTICE",
+          "size_bytes": 171,
+          "sha256": "cf428ffdb6d269bc864244b5ccf5f4c8e386df65e3131e4120663d383a84226d",
+          "source_jar_entry": "META-INF/NOTICE"
+        },
+        {
+          "path": "pdfbox-io-3.0.8/pom.xml",
+          "size_bytes": 3256,
+          "sha256": "cad8e929af82493947713b03a44d08c1c9b7839aa8935ec69793da59b06b04f7",
+          "source": "published Maven POM"
+        }
+      ]
+    },
+    {
+      "coordinate": "commons-logging:commons-logging:1.4.0",
+      "jar_sha256": "d175dbd751dd782a63bde28c7a039520e971f25e84b79c19b8435edc3603e0dc",
+      "jar_maven_central_url": "https://repo.maven.apache.org/maven2/commons-logging/commons-logging/1.4.0/commons-logging-1.4.0.jar",
+      "documents": [
+        {
+          "path": "commons-logging-1.4.0/LICENSE.txt",
+          "size_bytes": 11359,
+          "sha256": "b1d2870f1a00e4d7f56576e5f0870cba109e041f8af66866cf5b499478e654e7",
+          "source_jar_entry": "META-INF/LICENSE.txt"
+        },
+        {
+          "path": "commons-logging-1.4.0/NOTICE.txt",
+          "size_bytes": 177,
+          "sha256": "d649e220dd0497197a266b7d7304a009d06bcefce3141fa6ff4f2ceddb438237",
+          "source_jar_entry": "META-INF/NOTICE.txt"
+        },
+        {
+          "path": "commons-logging-1.4.0/pom.xml",
+          "size_bytes": 32668,
+          "sha256": "92d9c735808eda632a214c7f2c1640266cfc7269c3a63fd2346e15c988aeb11e",
+          "source": "published Maven POM"
+        }
+      ]
+    },
+    {
+      "coordinate": "com.google.code.gson:gson:2.13.2",
+      "jar_sha256": "dd0ce1b55a3ed2080cb70f9c655850cda86c206862310009dcb5e5c95265a5e0",
+      "jar_maven_central_url": "https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.13.2/gson-2.13.2.jar",
+      "documents": [
+        {
+          "path": "gson-2.13.2/pom.xml",
+          "size_bytes": 13490,
+          "sha256": "3aa06aa7c0f9af092961a42d09578e4324be146348a0ee6ed47857f7c2677b76",
+          "source": "published Maven POM"
+        },
+        {
+          "path": "gson-2.13.2/LICENSE",
+          "size_bytes": 11358,
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "source_url": "https://raw.githubusercontent.com/google/gson/gson-parent-2.13.2/LICENSE"
+        }
+      ]
+    },
+    {
+      "coordinate": "com.google.errorprone:error_prone_annotations:2.41.0",
+      "jar_sha256": "a56e782b5b50811ac204073a355a21d915a2107fce13ec711331ad036f660fcc",
+      "jar_maven_central_url": "https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.41.0/error_prone_annotations-2.41.0.jar",
+      "documents": [
+        {
+          "path": "error_prone_annotations-2.41.0/pom.xml",
+          "size_bytes": 4252,
+          "sha256": "a151df1e2e0b48618d8b06a180748a29b3abb39b1b2396f6a1c879a727488c6e",
+          "source": "published Maven POM"
+        },
+        {
+          "path": "error_prone_annotations-2.41.0/LICENSE",
+          "size_bytes": 11358,
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "source_url": "https://raw.githubusercontent.com/google/error-prone/v2.41.0/COPYING"
+        }
+      ]
+    }
+  ],
+  "temurin": {
+    "version": "17.0.20.1+1",
+    "distribution": "Eclipse Temurin",
+    "source_commit_short": "79597447bd94",
+    "build_source_commit": "e6ba7dec3d07654074559310376a3ae89da5f4ac",
+    "modules_for_app_image": [
+      "java.base",
+      "java.desktop",
+      "java.datatransfer",
+      "java.prefs",
+      "java.logging",
+      "java.xml",
+      "jdk.unsupported",
+      "jdk.charsets"
+    ],
+    "documents": [
+      {
+        "path": "temurin-17.0.20.1+1/NOTICE",
+        "size_bytes": 2400,
+        "sha256": "c02756bcd9fa8191bf0fda4451bc018414dd44ee35bf09922c24377a475e4b5a",
+        "jdk_entry": "NOTICE"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/release",
+        "size_bytes": 1638,
+        "sha256": "cb6064fe4d7b87d9fbb8b8c7702047044d1bbeac38e0c5217f595579b6cc764b",
+        "jdk_entry": "release"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.base/ADDITIONAL_LICENSE_INFO",
+        "size_bytes": 2114,
+        "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916",
+        "jdk_entry": "legal/java.base/ADDITIONAL_LICENSE_INFO"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.base/ASSEMBLY_EXCEPTION",
+        "size_bytes": 1522,
+        "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb",
+        "jdk_entry": "legal/java.base/ASSEMBLY_EXCEPTION"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.base/LICENSE",
+        "size_bytes": 19274,
+        "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726",
+        "jdk_entry": "legal/java.base/LICENSE"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.base/aes.md",
+        "size_bytes": 1444,
+        "sha256": "45c6d4da48325edfbff3dcf71c704e504c057904435ed23c6d57046d551eb69d",
+        "jdk_entry": "legal/java.base/aes.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.base/asm.md",
+        "size_bytes": 1584,
+        "sha256": "1ff912740e84e024711def5fa482ffbb46eff64559760c467352dfa7c39a3307",
+        "jdk_entry": "legal/java.base/asm.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.base/c-libutl.md",
+        "size_bytes": 1556,
+        "sha256": "bef40679922d6fdfb7e4ddb223ad6722300f6054ba737bbf6188d60fcec517f9",
+        "jdk_entry": "legal/java.base/c-libutl.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.base/cldr.md",
+        "size_bytes": 9130,
+        "sha256": "f2bd33ded550a05d59e8f659416ef382490504548d846e6388b1dffd273aa077",
+        "jdk_entry": "legal/java.base/cldr.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.base/icu.md",
+        "size_bytes": 11086,
+        "sha256": "af0057e8553906083f69c2fb9fe9ed4ae8bc2340a0b1e376a424702f00300b29",
+        "jdk_entry": "legal/java.base/icu.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.base/public_suffix.md",
+        "size_bytes": 17785,
+        "sha256": "e7705b408e894e91c93968640773b1532cd9927f8a7f178020aa3c3f38c8b363",
+        "jdk_entry": "legal/java.base/public_suffix.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.base/siphash.md",
+        "size_bytes": 8256,
+        "sha256": "5a792b5a74ad2a5f3d6a7ad8b7a841116e58a772c18bc6e392320a365b222c76",
+        "jdk_entry": "legal/java.base/siphash.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.base/unicode.md",
+        "size_bytes": 2384,
+        "sha256": "5e4e6623a21a63f9bc16ea54af4133b8038e490c0d499a74676f9e5a61b9c5b2",
+        "jdk_entry": "legal/java.base/unicode.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.base/zlib.md",
+        "size_bytes": 1010,
+        "sha256": "c9c70c36a1f0325e8788771906202d42ba6ab4205caca44ec0f665707e83226b",
+        "jdk_entry": "legal/java.base/zlib.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/ADDITIONAL_LICENSE_INFO",
+        "size_bytes": 2114,
+        "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916",
+        "jdk_entry": "legal/java.desktop/ADDITIONAL_LICENSE_INFO"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/ASSEMBLY_EXCEPTION",
+        "size_bytes": 1522,
+        "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb",
+        "jdk_entry": "legal/java.desktop/ASSEMBLY_EXCEPTION"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/LICENSE",
+        "size_bytes": 19274,
+        "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726",
+        "jdk_entry": "legal/java.desktop/LICENSE"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/colorimaging.md",
+        "size_bytes": 167,
+        "sha256": "04d61e3e8e71dd452ebe52008af5378d9f6640d14578aeb515dc5375973b0189",
+        "jdk_entry": "legal/java.desktop/colorimaging.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/freetype.md",
+        "size_bytes": 30465,
+        "sha256": "553e804baecb7de7129d77c7259a6b70037d1893f1c600b41b35201695fb7758",
+        "jdk_entry": "legal/java.desktop/freetype.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/giflib.md",
+        "size_bytes": 1689,
+        "sha256": "206aab89ec75968e48a6a1ed6df7d8b9bfb7aea12cbe4c9345d93e5d97460a25",
+        "jdk_entry": "legal/java.desktop/giflib.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/harfbuzz.md",
+        "size_bytes": 3629,
+        "sha256": "5ec7cba7f8e7fc3a089213140aab6fa1b3bd5bf8a91bf8bddb3b8d315fc5f7d0",
+        "jdk_entry": "legal/java.desktop/harfbuzz.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/jpeg.md",
+        "size_bytes": 3475,
+        "sha256": "580be596216ee11e2554b24ce944973acaede2ebf5ffba34a6bd8cc441c05043",
+        "jdk_entry": "legal/java.desktop/jpeg.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/lcms.md",
+        "size_bytes": 2654,
+        "sha256": "843f9f6fa9c3f8109fcf4d5fe74caf7f2ae8e9bcd92238e4aff2d428c932b24b",
+        "jdk_entry": "legal/java.desktop/lcms.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/libpng.md",
+        "size_bytes": 7519,
+        "sha256": "f73afb394792f3aeecd959e89487603677a430e56b44eba596d8b572accfd540",
+        "jdk_entry": "legal/java.desktop/libpng.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/mesa3d.md",
+        "size_bytes": 5732,
+        "sha256": "63f4e6f75caebbccb95d903fb43e46ac7111b3624d0a34f146b276d7d9e7b152",
+        "jdk_entry": "legal/java.desktop/mesa3d.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/pipewire.md",
+        "size_bytes": 1479,
+        "sha256": "56a8fb1652c70ac204d13bb52ca4d678162e7d21a97d10209c2a633de8082de0",
+        "jdk_entry": "legal/java.desktop/pipewire.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.desktop/xwd.md",
+        "size_bytes": 1348,
+        "sha256": "1d4ffa93c87f35084b02a7aa90a21084b4019db4fe1003c2e5ce775b4a384f59",
+        "jdk_entry": "legal/java.desktop/xwd.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.datatransfer/ADDITIONAL_LICENSE_INFO",
+        "size_bytes": 2114,
+        "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916",
+        "jdk_entry": "legal/java.datatransfer/ADDITIONAL_LICENSE_INFO"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.datatransfer/ASSEMBLY_EXCEPTION",
+        "size_bytes": 1522,
+        "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb",
+        "jdk_entry": "legal/java.datatransfer/ASSEMBLY_EXCEPTION"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.datatransfer/LICENSE",
+        "size_bytes": 19274,
+        "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726",
+        "jdk_entry": "legal/java.datatransfer/LICENSE"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.prefs/ADDITIONAL_LICENSE_INFO",
+        "size_bytes": 2114,
+        "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916",
+        "jdk_entry": "legal/java.prefs/ADDITIONAL_LICENSE_INFO"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.prefs/ASSEMBLY_EXCEPTION",
+        "size_bytes": 1522,
+        "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb",
+        "jdk_entry": "legal/java.prefs/ASSEMBLY_EXCEPTION"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.prefs/LICENSE",
+        "size_bytes": 19274,
+        "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726",
+        "jdk_entry": "legal/java.prefs/LICENSE"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.logging/ADDITIONAL_LICENSE_INFO",
+        "size_bytes": 2114,
+        "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916",
+        "jdk_entry": "legal/java.logging/ADDITIONAL_LICENSE_INFO"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.logging/ASSEMBLY_EXCEPTION",
+        "size_bytes": 1522,
+        "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb",
+        "jdk_entry": "legal/java.logging/ASSEMBLY_EXCEPTION"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.logging/LICENSE",
+        "size_bytes": 19274,
+        "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726",
+        "jdk_entry": "legal/java.logging/LICENSE"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.xml/ADDITIONAL_LICENSE_INFO",
+        "size_bytes": 2114,
+        "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916",
+        "jdk_entry": "legal/java.xml/ADDITIONAL_LICENSE_INFO"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.xml/ASSEMBLY_EXCEPTION",
+        "size_bytes": 1522,
+        "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb",
+        "jdk_entry": "legal/java.xml/ASSEMBLY_EXCEPTION"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.xml/LICENSE",
+        "size_bytes": 19274,
+        "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726",
+        "jdk_entry": "legal/java.xml/LICENSE"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.xml/bcel.md",
+        "size_bytes": 11196,
+        "sha256": "cd578186ad93de46cca29ec8ace2b11f9da751987f3f140e6095c528596cc8c1",
+        "jdk_entry": "legal/java.xml/bcel.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.xml/dom.md",
+        "size_bytes": 3761,
+        "sha256": "6686e8877667584a3a7c07344baadca1a03e29f677162d87c3c0811e990d1148",
+        "jdk_entry": "legal/java.xml/dom.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.xml/jcup.md",
+        "size_bytes": 1448,
+        "sha256": "8d5dcfdf50455a3c34c753a98f21e953248af200415a9084e3f102cb6c43b8bf",
+        "jdk_entry": "legal/java.xml/jcup.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.xml/xalan.md",
+        "size_bytes": 13494,
+        "sha256": "ea67226be5cfe19c7e79725c2c24a16676323264d69f9747c528de0b44541b03",
+        "jdk_entry": "legal/java.xml/xalan.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/java.xml/xerces.md",
+        "size_bytes": 11852,
+        "sha256": "472224f99de833f4f4c19f2f8a0317f22114e1c641f5d77ffa3a4280a1b80176",
+        "jdk_entry": "legal/java.xml/xerces.md"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/jdk.unsupported/ADDITIONAL_LICENSE_INFO",
+        "size_bytes": 2114,
+        "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916",
+        "jdk_entry": "legal/jdk.unsupported/ADDITIONAL_LICENSE_INFO"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/jdk.unsupported/ASSEMBLY_EXCEPTION",
+        "size_bytes": 1522,
+        "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb",
+        "jdk_entry": "legal/jdk.unsupported/ASSEMBLY_EXCEPTION"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/jdk.unsupported/LICENSE",
+        "size_bytes": 19274,
+        "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726",
+        "jdk_entry": "legal/jdk.unsupported/LICENSE"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/jdk.charsets/ADDITIONAL_LICENSE_INFO",
+        "size_bytes": 2114,
+        "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916",
+        "jdk_entry": "legal/jdk.charsets/ADDITIONAL_LICENSE_INFO"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/jdk.charsets/ASSEMBLY_EXCEPTION",
+        "size_bytes": 1522,
+        "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb",
+        "jdk_entry": "legal/jdk.charsets/ASSEMBLY_EXCEPTION"
+      },
+      {
+        "path": "temurin-17.0.20.1+1/legal/jdk.charsets/LICENSE",
+        "size_bytes": 19274,
+        "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726",
+        "jdk_entry": "legal/jdk.charsets/LICENSE"
+      }
+    ]
+  },
+  "note": "Original upstream license/notice/POM bytes, not relicensed by Annotrail. Build/test-only Maven dependencies are excluded from this runtime inventory."
+}

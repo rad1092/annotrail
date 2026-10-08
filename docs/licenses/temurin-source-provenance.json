@@ -1,0 +1,41 @@
+{
+  "version": "17.0.20.1+1",
+  "upstream_release": "https://github.com/adoptium/temurin17-binaries/releases/tag/jdk-17.0.20.1%2B1",
+  "runtime_source": {
+    "filename": "OpenJDK17U-jdk-sources_17.0.20.1_1.tar.gz",
+    "size_bytes": 109272338,
+    "sha256": "21e2a065d244ab048e737f21af5d1fc74daaeb6707de36477ead8db1dca71214",
+    "sha256_origin": "official GitHub release asset digest; downloaded archive verified",
+    "url": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jdk-sources_17.0.20.1_1.tar.gz",
+    "source_commit": "79597447bd94ff9f8216e2e3a573d5261ee49f2e",
+    "source_tag": "jdk-17.0.20.1+1_adopt",
+    "source_repository": "https://github.com/adoptium/jdk17u",
+    "metadata_url": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jdk-sources_17.0.20.1_1.tar.gz.json",
+    "license": "GPL-2.0-only WITH Classpath-exception-2.0; bundled third-party terms retained",
+    "included_build_recipes": [
+      "configure",
+      "make/Init.gmk",
+      "make/autoconf",
+      "doc/building.md"
+    ],
+    "archive_member_count": 82049
+  },
+  "temurin_build_scripts": {
+    "filename": "temurin-build-e6ba7dec3d07654074559310376a3ae89da5f4ac.tar.gz",
+    "size_bytes": 584568,
+    "sha256": "b1340378b9ed62b32acfacd012dd069ec2b9d940fc39d3c73f32142d64e89713",
+    "sha256_origin": "locally computed from downloaded archive at exact verified upstream commit; not a publisher digest",
+    "url": "https://codeload.github.com/adoptium/temurin-build/tar.gz/e6ba7dec3d07654074559310376a3ae89da5f4ac",
+    "commit": "e6ba7dec3d07654074559310376a3ae89da5f4ac",
+    "repository": "https://github.com/adoptium/temurin-build",
+    "commit_url": "https://github.com/adoptium/temurin-build/commit/e6ba7dec3d07654074559310376a3ae89da5f4ac",
+    "recipe_url": "https://github.com/adoptium/temurin-build/blob/e6ba7dec3d07654074559310376a3ae89da5f4ac/makejdk-any-platform.sh",
+    "license_documents": [
+      "docs/licenses/temurin-build-e6ba7dec/LICENSE",
+      "docs/licenses/temurin-build-e6ba7dec/NOTICE"
+    ]
+  },
+  "distribution_instructions": "Publish both source archives as downloadable assets beside every release containing this Temurin runtime. Retain runtime legal/ plus Temurin NOTICE, all library notices, and Annotrail packaging scripts. This record does not assert assets are already published. Inspect actual per-platform runtime release/metadata before release; version alone is not proof of identical build configuration.",
+  "runtime_modified": false,
+  "runtime_image_transformation": "jpackage/jlink module selection and stripping only, as recorded in scripts/package.py; no OpenJDK source edits."
+}

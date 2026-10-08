@@ -1,0 +1,12 @@
+Annotrail 0.1.0
+Copyright 2026 Annotrail contributors
+Licensed under the Apache License, Version 2.0.
+
+This product includes Apache PDFBox and FontBox developed by the Apache Software
+Foundation, Apache Commons Logging, and Google Gson. Upstream notices and
+licenses are retained in the distribution and shaded JAR.
+
+Runtime-containing application packages include Eclipse Temurin OpenJDK, under
+GPLv2 with the Classpath Exception. Its legal notices are in the app runtime's
+legal directory. No model weights, private PDFs, or third-party example corpus
+are distributed.

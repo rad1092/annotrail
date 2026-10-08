@@ -1,0 +1,618 @@
+{
+  "at_utc": "2026-10-08T01:58:08.289110+00:00",
+  "scope": "Current UTF-8 source/document files found by rg; excludes target, .repository, .local, dist and .git. Binary content and prior Git history not scanned. Concurrent edits require rechecking before final commit.",
+  "files_scanned": 103,
+  "findings": [
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 683,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 691,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 700,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 705,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 711,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 717,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 723,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 729,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 735,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 741,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 747,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 757,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "line": 819,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/c-libutl.md",
+      "line": 10,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/siphash.md",
+      "line": 7,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/zlib.md",
+      "line": 25,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/zlib.md",
+      "line": 25,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/freetype.md",
+      "line": 34,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/freetype.md",
+      "line": 34,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/freetype.md",
+      "line": 193,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/freetype.md",
+      "line": 200,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/giflib.md",
+      "line": 34,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/giflib.md",
+      "line": 35,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/harfbuzz.md",
+      "line": 15,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/harfbuzz.md",
+      "line": 22,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/harfbuzz.md",
+      "line": 60,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.xml/dom.md",
+      "line": 75,
+      "upstream_document": true,
+      "value_omitted": true
+    },
+    {
+      "kind": "email",
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.xml/xalan.md",
+      "line": 24,
+      "upstream_document": true,
+      "value_omitted": true
+    }
+  ],
+  "file_hashes": [
+    {
+      "path": ".github/workflows/test.yml",
+      "sha256": "1bf51237ce82ff98938060aa6ae7f653131f75b887caba06fa5a4c2663b4bdfe"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "a6b5f96a5b2985083613bc6ab7f3e0a5159816313668523311e1f024489c1dd0"
+    },
+    {
+      "path": "CONTRACT.md",
+      "sha256": "1ef5452f7f6cad414c04b1f28ef7fe9bc5e3c5c38c6ca0df341f46ccddf323b8"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "NOTICE",
+      "sha256": "9e9cd2c585be5e9437cd252de735333e5e9b69268e14ed0cfd8d5435d4bfac0b"
+    },
+    {
+      "path": "README.md",
+      "sha256": "0c362b2d3ccb412e208bf893a637f72fef38ca7d3e307f06b235773e3031b206"
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "b5f35f09e1f8d4a83dd3882c8d2eb3ba3dd848019f9585665eaa974bd6682ffa"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "5cae39b0349e5a7ba11544993926c26c1c9d63461c7c82c07e35cb9b156865f6"
+    },
+    {
+      "path": "docs/licenses/commons-logging-1.4.0/LICENSE.txt",
+      "sha256": "b1d2870f1a00e4d7f56576e5f0870cba109e041f8af66866cf5b499478e654e7"
+    },
+    {
+      "path": "docs/licenses/commons-logging-1.4.0/NOTICE.txt",
+      "sha256": "d649e220dd0497197a266b7d7304a009d06bcefce3141fa6ff4f2ceddb438237"
+    },
+    {
+      "path": "docs/licenses/commons-logging-1.4.0/pom.xml",
+      "sha256": "92d9c735808eda632a214c7f2c1640266cfc7269c3a63fd2346e15c988aeb11e"
+    },
+    {
+      "path": "docs/licenses/error_prone_annotations-2.41.0/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "docs/licenses/error_prone_annotations-2.41.0/pom.xml",
+      "sha256": "a151df1e2e0b48618d8b06a180748a29b3abb39b1b2396f6a1c879a727488c6e"
+    },
+    {
+      "path": "docs/licenses/fontbox-3.0.8/LICENSE",
+      "sha256": "f01ba19b3ca5d948d28e8d504c94ad4867ef2946153c6531d10874712e9d510c"
+    },
+    {
+      "path": "docs/licenses/fontbox-3.0.8/NOTICE",
+      "sha256": "51fd9b39da2a58365fd34637b3aeeb5d403a7c63a4d38cb8ec29b8035296e9e0"
+    },
+    {
+      "path": "docs/licenses/fontbox-3.0.8/pom.xml",
+      "sha256": "17805de8dae9e80519661dd1c0a623d699590f212ceccdb1dc9852733f1ae96f"
+    },
+    {
+      "path": "docs/licenses/gson-2.13.2/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "docs/licenses/gson-2.13.2/pom.xml",
+      "sha256": "3aa06aa7c0f9af092961a42d09578e4324be146348a0ee6ed47857f7c2677b76"
+    },
+    {
+      "path": "docs/licenses/inventory.json",
+      "sha256": "4ac09e7951416e847e1990d498f7adf83bc6539c591f3d0d858cd472a40318cf"
+    },
+    {
+      "path": "docs/licenses/pdfbox-3.0.8/LICENSE",
+      "sha256": "0e03b5901cca6833627e6cd8c74e8a6614b2677664bf4f15f15d455808d8c373"
+    },
+    {
+      "path": "docs/licenses/pdfbox-3.0.8/NOTICE",
+      "sha256": "229829a0ea844dee29ce02015f3675f0fc443256f393778d6d8ba7340d71dc03"
+    },
+    {
+      "path": "docs/licenses/pdfbox-3.0.8/pom.xml",
+      "sha256": "1acfce718edc900dff75b17afd44272b022a4f0e914adbe76531df56862403dd"
+    },
+    {
+      "path": "docs/licenses/pdfbox-io-3.0.8/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "docs/licenses/pdfbox-io-3.0.8/NOTICE",
+      "sha256": "cf428ffdb6d269bc864244b5ccf5f4c8e386df65e3131e4120663d383a84226d"
+    },
+    {
+      "path": "docs/licenses/pdfbox-io-3.0.8/pom.xml",
+      "sha256": "cad8e929af82493947713b03a44d08c1c9b7839aa8935ec69793da59b06b04f7"
+    },
+    {
+      "path": "docs/licenses/pdfbox-parent-3.0.8/pom.xml",
+      "sha256": "f031373f03c0f92fb4e49210645cd53e40e9579219655363ce19644ff779283e"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/NOTICE",
+      "sha256": "c02756bcd9fa8191bf0fda4451bc018414dd44ee35bf09922c24377a475e4b5a"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/ADDITIONAL_LICENSE_INFO",
+      "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/ASSEMBLY_EXCEPTION",
+      "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/LICENSE",
+      "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/aes.md",
+      "sha256": "45c6d4da48325edfbff3dcf71c704e504c057904435ed23c6d57046d551eb69d"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/asm.md",
+      "sha256": "1ff912740e84e024711def5fa482ffbb46eff64559760c467352dfa7c39a3307"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/c-libutl.md",
+      "sha256": "bef40679922d6fdfb7e4ddb223ad6722300f6054ba737bbf6188d60fcec517f9"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/cldr.md",
+      "sha256": "f2bd33ded550a05d59e8f659416ef382490504548d846e6388b1dffd273aa077"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/icu.md",
+      "sha256": "af0057e8553906083f69c2fb9fe9ed4ae8bc2340a0b1e376a424702f00300b29"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/public_suffix.md",
+      "sha256": "e7705b408e894e91c93968640773b1532cd9927f8a7f178020aa3c3f38c8b363"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/siphash.md",
+      "sha256": "5a792b5a74ad2a5f3d6a7ad8b7a841116e58a772c18bc6e392320a365b222c76"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/unicode.md",
+      "sha256": "5e4e6623a21a63f9bc16ea54af4133b8038e490c0d499a74676f9e5a61b9c5b2"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.base/zlib.md",
+      "sha256": "c9c70c36a1f0325e8788771906202d42ba6ab4205caca44ec0f665707e83226b"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.datatransfer/ADDITIONAL_LICENSE_INFO",
+      "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.datatransfer/ASSEMBLY_EXCEPTION",
+      "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.datatransfer/LICENSE",
+      "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/ADDITIONAL_LICENSE_INFO",
+      "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/ASSEMBLY_EXCEPTION",
+      "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/LICENSE",
+      "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/colorimaging.md",
+      "sha256": "04d61e3e8e71dd452ebe52008af5378d9f6640d14578aeb515dc5375973b0189"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/freetype.md",
+      "sha256": "553e804baecb7de7129d77c7259a6b70037d1893f1c600b41b35201695fb7758"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/giflib.md",
+      "sha256": "206aab89ec75968e48a6a1ed6df7d8b9bfb7aea12cbe4c9345d93e5d97460a25"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/harfbuzz.md",
+      "sha256": "5ec7cba7f8e7fc3a089213140aab6fa1b3bd5bf8a91bf8bddb3b8d315fc5f7d0"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/jpeg.md",
+      "sha256": "580be596216ee11e2554b24ce944973acaede2ebf5ffba34a6bd8cc441c05043"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/lcms.md",
+      "sha256": "843f9f6fa9c3f8109fcf4d5fe74caf7f2ae8e9bcd92238e4aff2d428c932b24b"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/libpng.md",
+      "sha256": "f73afb394792f3aeecd959e89487603677a430e56b44eba596d8b572accfd540"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/mesa3d.md",
+      "sha256": "63f4e6f75caebbccb95d903fb43e46ac7111b3624d0a34f146b276d7d9e7b152"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/pipewire.md",
+      "sha256": "56a8fb1652c70ac204d13bb52ca4d678162e7d21a97d10209c2a633de8082de0"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.desktop/xwd.md",
+      "sha256": "1d4ffa93c87f35084b02a7aa90a21084b4019db4fe1003c2e5ce775b4a384f59"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.logging/ADDITIONAL_LICENSE_INFO",
+      "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.logging/ASSEMBLY_EXCEPTION",
+      "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.logging/LICENSE",
+      "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.prefs/ADDITIONAL_LICENSE_INFO",
+      "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.prefs/ASSEMBLY_EXCEPTION",
+      "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.prefs/LICENSE",
+      "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.xml/ADDITIONAL_LICENSE_INFO",
+      "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.xml/ASSEMBLY_EXCEPTION",
+      "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.xml/LICENSE",
+      "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.xml/bcel.md",
+      "sha256": "cd578186ad93de46cca29ec8ace2b11f9da751987f3f140e6095c528596cc8c1"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.xml/dom.md",
+      "sha256": "6686e8877667584a3a7c07344baadca1a03e29f677162d87c3c0811e990d1148"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.xml/jcup.md",
+      "sha256": "8d5dcfdf50455a3c34c753a98f21e953248af200415a9084e3f102cb6c43b8bf"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.xml/xalan.md",
+      "sha256": "ea67226be5cfe19c7e79725c2c24a16676323264d69f9747c528de0b44541b03"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/java.xml/xerces.md",
+      "sha256": "472224f99de833f4f4c19f2f8a0317f22114e1c641f5d77ffa3a4280a1b80176"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/jdk.charsets/ADDITIONAL_LICENSE_INFO",
+      "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/jdk.charsets/ASSEMBLY_EXCEPTION",
+      "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/jdk.charsets/LICENSE",
+      "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/jdk.unsupported/ADDITIONAL_LICENSE_INFO",
+      "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/jdk.unsupported/ASSEMBLY_EXCEPTION",
+      "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/legal/jdk.unsupported/LICENSE",
+      "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726"
+    },
+    {
+      "path": "docs/licenses/temurin-17.0.20.1+1/release",
+      "sha256": "cb6064fe4d7b87d9fbb8b8c7702047044d1bbeac38e0c5217f595579b6cc764b"
+    },
+    {
+      "path": "docs/licenses/temurin-build-e6ba7dec/LICENSE",
+      "sha256": "6b9522191b8cb7126b2d214edd7f782d2ccd83c467e9c03b8af9e0bf903b49b4"
+    },
+    {
+      "path": "docs/licenses/temurin-build-e6ba7dec/NOTICE",
+      "sha256": "af830a6ca6ad0a57f357dc0435f9d8b5770704bbe0cf99a9fd82c97bfb0b3ca9"
+    },
+    {
+      "path": "docs/licenses/temurin-source-provenance.json",
+      "sha256": "0916fcd79fccfc0f5c56833e108444fdcb12ef1d4832aeee68264d4536fd7c78"
+    },
+    {
+      "path": "docs/research.md",
+      "sha256": "b64c5a47794425f35c5a9cb1d8bebb82ac3478a92ba4df72c82e81095846270c"
+    },
+    {
+      "path": "docs/validation.md",
+      "sha256": "acfa56d13f55ff2ae1619edd552abfb0e8d50a5a45c38e530efd964246b247ab"
+    },
+    {
+      "path": "pom.xml",
+      "sha256": "17e69ee0ed502d133324bc1e26bdf7af104aaf99ef8e1d886b0ce11d6ffa44be"
+    },
+    {
+      "path": "scripts/annotrail",
+      "sha256": "2138bc4b7e94b6a6598070b1c8dbf8ee2d8fe1337f86eea5bd5db20f368b28ae"
+    },
+    {
+      "path": "scripts/annotrail.cmd",
+      "sha256": "189711cb5e743b0313a309a310d4666827c08c9092cb24fe4e5a5d4f09eba5a5"
+    },
+    {
+      "path": "scripts/install_smoke.py",
+      "sha256": "a211fbdc18f362b18e6168e86dd1ea220c01a20f6ab95f06483f38f3236cd791"
+    },
+    {
+      "path": "scripts/package.py",
+      "sha256": "001c70a3e16bc0ce8260601a2112443934fab585fef6401ebd99cc48cfb15a02"
+    },
+    {
+      "path": "src/main/java/net/whago/annotrail/Main.java",
+      "sha256": "e969ce6b3f34577f66c517942efecd167db4565c33c2ec7d011a327030b1d79c"
+    },
+    {
+      "path": "src/main/java/net/whago/annotrail/Models.java",
+      "sha256": "9976752d4bd377ec3d9a699775111e2190edbaf4c9414720cb003cd0000758c4"
+    },
+    {
+      "path": "src/main/java/net/whago/annotrail/Rebaser.java",
+      "sha256": "150aba6dde6459cb0ef324e1fb31a2f4a763a06c99455ab99185a3e075214062"
+    },
+    {
+      "path": "src/main/java/net/whago/annotrail/ReviewFrame.java",
+      "sha256": "22be2111c7ead0b7fb6a59af6af50fa1f1d3b44f81bd49208da7ec3cd3cdaf13"
+    },
+    {
+      "path": "src/main/java/net/whago/annotrail/ReviewModel.java",
+      "sha256": "2317dc37524d7aa63d405fed21bd467cfb5160220a4e652ea06ce4f07f492948"
+    },
+    {
+      "path": "src/main/java/net/whago/annotrail/TextIndex.java",
+      "sha256": "cba5b9397b1491c546df462132f3412561ffaa7db5ac12b061939864b7b49a6d"
+    },
+    {
+      "path": "src/test/java/net/whago/annotrail/Benchmark.java",
+      "sha256": "b88d869ca6de29fea37497dad7fd9cecd221815daf94d65cb2423d3c7a287f24"
+    },
+    {
+      "path": "src/test/java/net/whago/annotrail/FixtureGenerator.java",
+      "sha256": "7a134157303305cbf816871bc84010e151bc6089d7a78bb18683728375138e87"
+    },
+    {
+      "path": "src/test/java/net/whago/annotrail/MainTest.java",
+      "sha256": "aeb9d992e6a247c41f48e34e70a2ccf69cd012061537358b7a5e8e0b819c700c"
+    },
+    {
+      "path": "src/test/java/net/whago/annotrail/RebaserTest.java",
+      "sha256": "3d1e8b9e3eb9b2eb30ff2e4bab241b20cf681de3a0e1069953d84bc00326c208"
+    },
+    {
+      "path": "src/test/java/net/whago/annotrail/ReviewFrameTest.java",
+      "sha256": "294ea8f29a17cbf480a99763f270b9d971ff78ef5846b943ba54523c4c547946"
+    },
+    {
+      "path": "src/test/java/net/whago/annotrail/ReviewModelTest.java",
+      "sha256": "3b44c12ef49510a1e6e3e58c2b057763bc0693eb92cc7796cf9e657904b0034a"
+    },
+    {
+      "path": "src/test/java/net/whago/annotrail/ReviewWorkflowTest.java",
+      "sha256": "b588349d4d8d4f1370d9fc40f7793f313f19ea81417d3f14f2eaccf85cc60752"
+    },
+    {
+      "path": "src/test/java/net/whago/annotrail/UnicodePdfTest.java",
+      "sha256": "6b7a19f892c97b8ad37269e1f5377b0193ed0425f6ac9b3ad2029bcaf6ce1e52"
+    },
+    {
+      "path": "src/test/resources/fonts/OFL.txt",
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    {
+      "path": "src/test/resources/fonts/README.md",
+      "sha256": "dc16a7b9832e88aa165f66c7c4dae4d885b905b199d399abc4c835fbba1bd5e8"
+    },
+    {
+      "path": "src/test/resources/fonts/subset_font.py",
+      "sha256": "20badf0ab76f7950ee21c5ed546e672b5c86763cabcd6ff57e56f30e16b2cb07"
+    }
+  ],
+  "note": "Public upstream author emails in original license/POM files are attribution, not user private email. Pattern absence does not prove absence of all secrets."
+}
