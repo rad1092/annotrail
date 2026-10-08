@@ -17,7 +17,7 @@ import org.apache.pdfbox.pdmodel.interactive.annotation.*;
 
 /** Read-only analysis and explicitly reviewed transfer. This is not a hostile-PDF sandbox. */
 public final class Rebaser {
-    public static final String VERSION = "0.1.0";
+    public static final String VERSION = "0.1.1";
     public static final long MAX_INPUT_BYTES = 256L * 1024 * 1024;
     public static final int MAX_PLAN_ENTRY_BYTES = 8 * 1024 * 1024;
     private Rebaser() { }
@@ -113,6 +113,12 @@ public final class Rebaser {
 
     public static Result export(Path oldPdf, Path newPdf, Plan plan, Map<String,Integer> choices,
                                 Path outputPdf, Path reportJson, BooleanSupplier cancelled) throws IOException {
+        return export(oldPdf,newPdf,plan,choices,outputPdf,reportJson,cancelled,new OutputPublication.FileOperations());
+    }
+
+    static Result export(Path oldPdf, Path newPdf, Plan plan, Map<String,Integer> choices,
+                         Path outputPdf, Path reportJson, BooleanSupplier cancelled,
+                         OutputPublication.FileOperations files) throws IOException {
         TextIndex.check(cancelled);
         if (plan == null || choices == null) throw new IOException("A review plan and explicit choices are required.");
         Path output = destination(outputPdf), report = destination(reportJson);
@@ -131,8 +137,8 @@ public final class Rebaser {
         }
         if (!ids.equals(choices.keySet())) throw new IOException("Choices contain unknown annotation IDs.");
         Result result = new Result(transferred,fresh.entries().size()-transferred,fresh.warnings());
-        Path pdfTemp = null, reportTemp = null; boolean linkedPdf = false, linkedReport = false;
-        try {
+        Path pdfTemp = null, reportTemp = null;
+        try (OutputPublication publication=new OutputPublication(files,cancelled)) {
             pdfTemp = Files.createTempFile(output.getParent(),".annotrail-",".pdf.tmp");
             reportTemp = Files.createTempFile(report.getParent(),".annotrail-",".json.tmp");
             try (PDDocument original = Loader.loadPDF(oldPdf.toFile()); PDDocument revised = Loader.loadPDF(newPdf.toFile())) {
@@ -192,14 +198,16 @@ public final class Rebaser {
             TextIndex.check(cancelled);
             verify(oldPdf,new Stamp(fresh.original().sha256(),fresh.original().bytes()),cancelled);
             verify(newPdf,new Stamp(fresh.revised().sha256(),fresh.revised().bytes()),cancelled);
-            // Creating a hard link atomically fails if the destination exists. ATOMIC_MOVE can overwrite on POSIX.
-            Files.createLink(output,pdfTemp); linkedPdf = true;
+            publication.publish(pdfTemp,output);
             TextIndex.check(cancelled);
-            Files.createLink(report,reportTemp); linkedReport = true;
+            publication.publish(reportTemp,report);
+            TextIndex.check(cancelled);
+            publication.commit();
             return result;
         } catch (IOException | RuntimeException failure) {
-            if (linkedReport && reportTemp != null && Files.isSameFile(report,reportTemp)) Files.deleteIfExists(report);
-            if (linkedPdf && pdfTemp != null && Files.isSameFile(output,pdfTemp)) Files.deleteIfExists(output);
+            for(Throwable suppressed:failure.getSuppressed())
+                if(suppressed instanceof OutputPublication.RollbackException)
+                    throw new IOException(failure.getMessage()+" "+suppressed.getMessage(),failure);
             if (failure instanceof IOException io) throw io;
             throw new IOException("PDF export failed; no completed output was published.",failure);
         } finally {

@@ -6,7 +6,7 @@ p.add_argument('--archive',type=pathlib.Path)
 a=p.parse_args()
 root=pathlib.Path(__file__).resolve().parents[1]
 java=pathlib.Path(os.environ['JAVA_HOME'])/'bin'/('java.exe' if os.name=='nt' else 'java')
-jar=root/'target'/'annotrail-0.1.0.jar'
+jar=root/'target'/'annotrail-0.1.1.jar'
 (root/'target').mkdir(exist_ok=True)
 with tempfile.TemporaryDirectory(prefix='annotrail-smoke-',dir=root/'target') as td:
     tmp=pathlib.Path(td)
@@ -29,7 +29,7 @@ with tempfile.TemporaryDirectory(prefix='annotrail-smoke-',dir=root/'target') as
         r=subprocess.run(command+list(map(str,args)),cwd=tmp,text=True,capture_output=True,timeout=90)
         assert r.returncode==code,(r.returncode,r.stdout,r.stderr)
         return r
-    assert '0.1.0' in run(['--version']).stdout
+    assert '0.1.1' in run(['--version']).stdout
     run(['--help'])
     old,new=fixture/'old.pdf',fixture/'new.pdf'
     hashes=[hashlib.sha256(x.read_bytes()).hexdigest() for x in (old,new)]

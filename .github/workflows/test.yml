@@ -20,10 +20,15 @@ jobs:
           python-version: '3.12'
       - name: Install exact verified Temurin build
         run: python scripts/setup_jdk.py
+      - name: Install Linux virtual display for native window verification
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y xvfb
       - name: Core, CLI and desktop review-state tests
         run: mvn -B verify
       - name: Distributable JAR workflow
         run: python scripts/install_smoke.py
+      - name: Native window review and export workflow
+        run: python scripts/native_smoke.py
       - name: Package runtime-included app
         run: python scripts/package.py --skip-build
       - name: Extract, exercise and remove installed app
@@ -35,4 +40,10 @@ jobs:
             dist/*.zip
             dist/*.jar
             dist/SHA256SUMS
+          retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: native-evidence-${{ matrix.os }}
+          path: target/native-smoke/
           retention-days: 14

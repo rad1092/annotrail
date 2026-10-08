@@ -20,10 +20,10 @@ SHA-256, then extract it into a folder you control. The app includes Java:
 - Windows: open `Annotrail/Annotrail.exe`.
 - Linux: run `Annotrail/bin/Annotrail` in a desktop session.
 
-macOS bundle build `1` corresponds to product version `0.1.0` (shown by `--version`).
-These first-release packages are unsigned and not notarized. OS trust prompts
+macOS bundle build `2` corresponds to product version `0.1.1` (shown by `--version`).
+These packages are unsigned and not notarized. OS trust prompts
 may apply; no security protection needs to be disabled. Headless systems can
-use the included `annotrail-0.1.0.jar` with Java 17+.
+use the included `annotrail-0.1.1.jar` with Java 17+.
 
 To remove the app, close it and delete only the extracted app folder. No service,
 login item, browser extension, global configuration, or hidden user database is
@@ -80,7 +80,7 @@ Annotrail does not open or modify the Zotero database. See the
 Java 17+ is required for the standalone JAR:
 
 ```sh
-java -Xmx512m -jar annotrail-0.1.0.jar analyze \
+java -Xmx512m -jar annotrail-0.1.1.jar analyze \
   --old annotated.pdf --new revision.pdf --plan plan.json
 ```
 
@@ -97,7 +97,7 @@ IDs above illustrate the format; always use the actual IDs in your plan. Every
 annotation must have a decision. Then:
 
 ```sh
-java -Xmx512m -jar annotrail-0.1.0.jar export \
+java -Xmx512m -jar annotrail-0.1.1.jar export \
   --old annotated.pdf --new revision.pdf --plan plan.json \
   --choices choices.json --output reviewed.pdf --report reconciliation.json
 ```
@@ -105,11 +105,20 @@ java -Xmx512m -jar annotrail-0.1.0.jar export \
 Alternatively, `--accept-confident` explicitly accepts unique exact matches and
 skips all unresolved entries. It is convenient for a reviewed plan, not a claim
 that unattended transfer is semantically safe. The engine reanalyzes inputs
-before export and rejects a stale or edited plan.
+before export and rejects a stale or edited plan. After upgrading from 0.1.0,
+analyze again to create a 0.1.1 review plan.
 
 Exit codes: `0` complete, `1` analysis has entries needing review, `2` input/output
 or resource error, `130` cooperative cancellation. Every output must be a new
 path, distinct from all inputs. Do not treat a failed/cancelled run as complete.
+
+Outputs use an exclusive hard link where available. On filesystems without hard
+links, such as exFAT and FAT32, Annotrail reserves each new name exclusively and
+copies the verified staged file. Existing files are never replaced. During this
+fallback another program may briefly see an incomplete destination; wait for a
+successful export before opening it. Cancellation or a write failure attempts
+to remove only files still identified as belonging to that export. A power loss
+can leave partial files, so a failed run must not be treated as completed.
 
 Default caps: 256 MiB per input file, 500,000 inspected PDF objects, 500 pages per file, 2 million extracted characters, 2,000 source
 annotations, 20 candidates per annotation, an 8 MiB serialized-entry plan budget,
@@ -123,8 +132,8 @@ JDK 17+ and Maven 3.9+:
 
 ```sh
 mvn -B verify
-java -Xmx512m -jar target/annotrail-0.1.0.jar --help
-java -Xmx512m -jar target/annotrail-0.1.0.jar gui
+java -Xmx512m -jar target/annotrail-0.1.1.jar --help
+java -Xmx512m -jar target/annotrail-0.1.1.jar gui
 ```
 
 `python3 scripts/package.py --skip-build` creates a runtime-included app image

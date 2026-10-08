@@ -10,6 +10,15 @@ again when exporting, and a saved plan is checked against fresh analysis before
 its mappings are applied. New output paths are required. Keep originals and
 review the resulting PDF visually before replacing your own working copy.
 
+Use output folders you control. Exclusive creation prevents overwriting an
+existing destination, but portable filesystem APIs cannot make identity checks
+and rollback deletion atomic against a hostile concurrent process. Providers
+without file keys also cannot distinguish a later replacement with identical
+contents. On volumes
+without hard links, a destination is visible while its contents are copied;
+interrupted power or forced termination may leave partial output. Only a
+successful export confirms that both the PDF and report completed.
+
 The report intentionally retains annotation text, comments, author labels,
 filenames and hashes. These are potentially private. Sharing a report is a user
 action outside the application; review/redact it first. No document corpus is

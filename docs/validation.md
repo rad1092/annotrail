@@ -5,7 +5,7 @@
 Apple M5 Pro, 15 CPU cores, 48 GiB unified memory, macOS 27.0.1, Temurin
 17.0.20.1+1. Tests use synthetic PDFs and a small OFL-licensed Noto font subset.
 
-- 50 JUnit tests passed in the local integrated run, including core, CLI,
+- 72 JUnit tests passed in the 0.1.1 local integrated run, including core, CLI,
   Korean/Japanese/Chinese/ligatures, review decisions, and real Swing component
   workflows. No skipped tests in that run.
 - The workflow test clicks the actual offscreen Analyze/Approve/Skip controls,
@@ -47,7 +47,7 @@ isolated benchmark claims. Generated PDFs and reports were deleted automatically
 ## Distribution and CI
 
 macOS runtime-included app ZIP extraction -> native launcher -> full CLI workflow
--> removal passed. Three-OS CI results are linked from the release after execution.
+-> removal passed. Three-OS CI results are linked from the corresponding release after execution.
 A configured workflow is not a passing result. Native packages are
 unsigned; macOS notarization and interactive OS trust-dialog behavior are not
 verified. Runtime source archives and upstream notices accompany releases.
@@ -57,7 +57,46 @@ verified. Runtime source archives and upstream notices accompany releases.
 Input size/page/text/annotation/candidate/plan budgets, corrupt/encrypted input,
 signed revised PDFs, unsupported annotations/rotation, no selected text, repeated
 text, crop offsets, line wrapping, absent anchors, stale plans, repeated transfer,
-source hashes, atomic publication/rollback and cancellation are covered. An
+source hashes, exclusive publication/rollback and cancellation are covered. An
 anchor that crosses a revised page boundary is unresolved; OCR text-layer
 accuracy is unverified. No private user corpus or third-party paid service was
 used. This release does not establish real-user adoption or willingness to pay.
+
+
+## 0.1.1 follow-up
+
+The prior hard-link-only output path could not publish files on exFAT/FAT32.
+Version 0.1.1 retains exclusive hard-link publication when available and uses
+exclusive new-file copy otherwise. The fallback does not offer atomic visibility
+or power-loss durability; callers must wait for export success. Regression
+verification covers unsupported links, collisions, cancellation/partial writes,
+report publication failure, and preservation of replacement files.
+
+A real 64 MiB exFAT disk-image test was attempted on this Mac, but the operating
+system refused image creation before mounting. No security/permission change
+was attempted. Actual external exFAT/FAT32 hardware is therefore not a tested
+platform; injected unsupported-hardlink, missing-file-key and write-failure tests exercise
+the fallback.
+
+Native UI connection was retried using the verified bundle ID and installed app
+path. Inventory worked, but the path-based tool call exceeded its requested
+10-second timeout and required cancellation. No further calls of that kind are
+made. Native window/file-picker clicks remain unverified. The signing-identity
+query returned zero valid identities; no signing key, new credential, payment,
+or operating-system security change was introduced.
+
+The full 0.1.1 local suite passed **72/72 tests**, with zero skipped tests. The
+new 22 cases cover publication failures and complete PDF fallback exports.
+A separate native-window runner created a real macOS JFrame and verified
+window-open/showing state, two PDF previews, two approvals/two skips, repeated
+candidate selection, export/reopen and original-byte preservation. Against the
+fresh 0.1.1 JAR it completed in 1.181 seconds and disposed its own window. This
+runner drives the application's own Swing controls; it does not synthesize OS
+input, open the native file picker, or capture the user's screen.
+
+Reproduce after `mvn verify` with `python3 scripts/native_smoke.py` and `JAVA_HOME`
+set. The wrapper bounds the subprocess to 60 seconds, keeps only its small JSON
+and rendered-content image/logs in `target/native-smoke`, and removes generated
+PDFs. Linux needs a graphical display or `xvfb-run`. CI executes this native
+window workflow in addition to the headless JUnit suite and extracted-package
+CLI workflow on every configured platform.
