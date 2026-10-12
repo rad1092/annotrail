@@ -24,7 +24,7 @@ the runtime-included package does not require a separate Java installation.
 From the checkout root with Java 17+ and a built JAR:
 
 ```sh
-java -Xmx512m -jar target/annotrail-0.1.2.jar analyze --old examples/review-demo/old.pdf --new examples/review-demo/new.pdf --plan plan.json
+java -Xmx512m -jar target/annotrail-0.1.3.jar analyze --old examples/review-demo/old.pdf --new examples/review-demo/new.pdf --plan plan.json
 ```
 
 Exit `1` is expected: three entries need an explicit decision. Inspect the plan,
@@ -32,12 +32,12 @@ then use the included [choices.json](choices.json), which accepts `p1-a0` and
 skips the other three annotations in these exact sample files:
 
 ```sh
-java -Xmx512m -jar target/annotrail-0.1.2.jar export --old examples/review-demo/old.pdf --new examples/review-demo/new.pdf --plan plan.json --choices examples/review-demo/choices.json --output reviewed.pdf --report reconciliation.json
+java -Xmx512m -jar target/annotrail-0.1.3.jar export --old examples/review-demo/old.pdf --new examples/review-demo/new.pdf --plan plan.json --choices examples/review-demo/choices.json --output reviewed.pdf --report reconciliation.json
 ```
 
 Expect exit `0`. Repeating the export with the same output names must fail with
 exit `2`, preserving the completed outputs. For the standalone release JAR,
-replace `target/annotrail-0.1.2.jar` with its actual path. Never reuse these IDs or
+replace `target/annotrail-0.1.3.jar` with its actual path. Never reuse these IDs or
 choices with your own PDFs; create and review their own plan.
 
 ## If your own PDFs do not match
@@ -57,7 +57,7 @@ standard Helvetica); no customer documents or external fonts are included.
 After `mvn verify`, maintainers can regenerate them in a **new** directory with:
 
 ```sh
-java -cp target/test-classes:target/annotrail-0.1.2.jar net.whago.annotrail.FixtureGenerator /tmp/annotrail-new-samples
+java -cp target/test-classes:target/annotrail-0.1.3.jar net.whago.annotrail.FixtureGenerator /tmp/annotrail-new-samples
 ```
 
 On Windows the classpath separator is `;`. Generation refuses existing PDFs.
