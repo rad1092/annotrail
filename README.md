@@ -32,6 +32,12 @@ installed. Your PDFs and exported reports are ordinary files you choose.
 
 ## Review workflow
 
+No suitable PDFs to try yet? Use the tiny, synthetic
+[review demo](examples/review-demo/README.md): an annotated one-page draft and
+a two-page revision, with one match, one ambiguous phrase, one missing phrase
+and one unsupported drawing. You can try the existing release without building
+Java or sharing a private document.
+
 1. Select **Old annotated PDF** and **Revised PDF**, then analyze.
 2. Select an annotation. Compare the old page with candidate positions on the
    revised page, and read the quoted text/comment and surrounding context.
