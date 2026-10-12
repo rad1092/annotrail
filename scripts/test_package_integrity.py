@@ -4,16 +4,67 @@ import os
 from pathlib import Path
 import platform
 import plistlib
+import runpy
 import shutil
 import stat
 import subprocess
+import sys
 import tempfile
 import unittest
+from unittest import mock
 import zipfile
 
 from package_integrity import (CODESIGN, add_regular_tree, extract_regular_zip,
                                materialize_runtime_legal_links, seal_macos_app,
                                verify_macos_app)
+
+
+class SupportFileRebuildTests(unittest.TestCase):
+    def test_rebuild_excludes_deleted_sources_and_stale_dist_support_files(self):
+        # Execute the real packager twice. Only jpackage is stubbed: the archive
+        # and support-file paths are real, and old generated staging is retained.
+        with tempfile.TemporaryDirectory(prefix='annotrail-rebuild-test-') as temporary:
+            root = Path(temporary)
+            (root / 'scripts').mkdir()
+            script = root / 'scripts/package.py'
+            shutil.copy2(Path(__file__).with_name('package.py'), script)
+            (root / 'target').mkdir()
+            (root / 'target/annotrail-0.1.3.jar').write_bytes(b'synthetic jar')
+            for name in ('README.md', 'LICENSE', 'NOTICE', 'THIRD_PARTY_NOTICES.md', 'SECURITY.md'):
+                (root / name).write_text('Synthetic support fixture\n')
+            for name in ('docs', 'examples'):
+                (root / name).mkdir()
+                (root / name / 'removed.txt').write_text('old authored fixture')
+
+            def fake_jpackage(arguments, **kwargs):
+                self.assertIn('--type', arguments)
+                app = root / 'dist/Annotrail'
+                (app / 'lib/runtime/legal').mkdir(parents=True)
+                (app / 'launcher').write_bytes(b'synthetic launcher')
+
+            archive = root / 'dist/annotrail-0.1.3-linux-qa.zip'
+            with mock.patch.dict(os.environ, {'JAVA_HOME': str(root / 'jdk')}), \
+                    mock.patch.object(sys, 'argv', [str(script), '--skip-build']), \
+                    mock.patch('platform.system', return_value='Linux'), \
+                    mock.patch('platform.machine', return_value='qa'), \
+                    mock.patch('subprocess.run', side_effect=fake_jpackage):
+                runpy.run_path(str(script), run_name='__main__')
+                with zipfile.ZipFile(archive) as packaged:
+                    self.assertIn('examples/removed.txt', packaged.namelist())
+                shutil.rmtree(root / 'dist/Annotrail')
+                for name in ('docs', 'examples'):
+                    (root / name / 'removed.txt').unlink()
+                    (root / name / 'current.txt').write_text('current authored fixture')
+                    stale = root / 'dist' / name
+                    stale.mkdir(exist_ok=True)
+                    (stale / 'removed.txt').write_text('stale generated fixture')
+                runpy.run_path(str(script), run_name='__main__')
+                with zipfile.ZipFile(archive) as packaged:
+                    for name in ('docs', 'examples'):
+                        self.assertIn(f'{name}/current.txt', packaged.namelist())
+                        self.assertNotIn(f'{name}/removed.txt', packaged.namelist())
+                        self.assertEqual(packaged.read(f'{name}/current.txt'), b'current authored fixture')
+                        self.assertEqual((root / 'dist' / name / 'removed.txt').read_text(), 'stale generated fixture')
 
 
 class PackageFixture:

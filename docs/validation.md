@@ -142,3 +142,12 @@ test fixtures and Python ZIP-name normalization. The fixtures now use native
 link targets and byte-exact malformed ZIP names; extraction checks the raw
 name before normalization. Backslash/NUL rejection and the Windows runtime
 layout are covered. Packaged license paths also match the notice links.
+
+## 0.1.3 support-file packaging correction
+
+Support documents and authored examples are archived directly from the current
+source tree. Reusing `dist` can no longer merge deleted support files into a
+new archive. The packaging regression executes two archive builds with stale
+`dist/docs` and `dist/examples` entries and checks that only current source
+files ship. Its jpackage step is synthetic; platform CI separately builds,
+extracts and launches the real runtime-included archives.

@@ -10,7 +10,7 @@ java_home=pathlib.Path(os.environ['JAVA_HOME'])
 maven=os.environ.get('ANNOTRAIL_MAVEN','mvn.cmd' if os.name=='nt' else 'mvn')
 if not a.skip_build:
     subprocess.run([maven,'-B','verify'],cwd=root,check=True)
-jar=root/'target'/'annotrail-0.1.2.jar'
+jar=root/'target'/'annotrail-0.1.3.jar'
 if not jar.is_file():
     raise SystemExit(f'Missing built application: {jar}')
 dist=root/'dist'
@@ -22,13 +22,11 @@ jpackage=java_home/'bin'/('jpackage.exe' if os.name=='nt' else 'jpackage')
 with tempfile.TemporaryDirectory(prefix='package-input-',dir=root/'target') as temporary:
     staging=pathlib.Path(temporary)
     shutil.copy2(jar,staging/jar.name)
-    subprocess.run([str(jpackage),'--type','app-image','--name','Annotrail','--input',str(staging),'--main-jar',jar.name,'--main-class','net.whago.annotrail.Main','--dest',str(dist),'--app-version',('3' if platform.system()=='Darwin' else '0.1.2'),'--vendor','Annotrail contributors','--description','Reviewed PDF annotation transfer across revisions','--arguments','gui','--java-options','-Xmx512m','--add-modules','java.base,java.desktop,java.logging,java.xml,jdk.unsupported,jdk.charsets'],check=True)
+    subprocess.run([str(jpackage),'--type','app-image','--name','Annotrail','--input',str(staging),'--main-jar',jar.name,'--main-class','net.whago.annotrail.Main','--dest',str(dist),'--app-version',('4' if platform.system()=='Darwin' else '0.1.3'),'--vendor','Annotrail contributors','--description','Reviewed PDF annotation transfer across revisions','--arguments','gui','--java-options','-Xmx512m','--add-modules','java.base,java.desktop,java.logging,java.xml,jdk.unsupported,jdk.charsets'],check=True)
 # A separate jar keeps the portable CLI available even in headless environments.
 shutil.copy2(jar,dist/jar.name)
 for file in ('README.md','LICENSE','NOTICE','THIRD_PARTY_NOTICES.md','SECURITY.md'):
     shutil.copy2(root/file,dist/file)
-shutil.copytree(root/'docs',dist/'docs',dirs_exist_ok=True)
-shutil.copytree(root/'examples',dist/'examples',dirs_exist_ok=True)
 # Nothing inside the app may change after this final seal. jlink legal links
 # must become regular files BEFORE signing, matching our portable ZIP format.
 if platform.system() == 'Darwin':
@@ -38,13 +36,14 @@ else:
     # archive format must be complete before ZIP creation on every platform.
     legal_path = 'runtime/legal' if platform.system() == 'Windows' else 'lib/runtime/legal'
     materialized = materialize_runtime_legal_links(image, legal_path)
-name=f'annotrail-0.1.2-{platform.system().lower()}-{platform.machine().lower()}.zip'
+name=f'annotrail-0.1.3-{platform.system().lower()}-{platform.machine().lower()}.zip'
 archive=dist/name
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
     add_regular_tree(z, image, dist)
-    add_regular_tree(z, dist/'docs', dist)
-    add_regular_tree(z, dist/'examples', dist)
-    for file in ('annotrail-0.1.2.jar','README.md','LICENSE','NOTICE','THIRD_PARTY_NOTICES.md','SECURITY.md'):
+    # Source trees prevent stale files from a reused dist directory shipping.
+    add_regular_tree(z, root/'docs', root)
+    add_regular_tree(z, root/'examples', root)
+    for file in ('annotrail-0.1.3.jar','README.md','LICENSE','NOTICE','THIRD_PARTY_NOTICES.md','SECURITY.md'):
         add_regular_tree(z, dist/file, dist)
 if platform.system() == 'Darwin':
     # Verify the actual distributed bytes/types, not just the pre-ZIP image.
