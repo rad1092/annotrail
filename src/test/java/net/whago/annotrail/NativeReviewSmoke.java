@@ -24,11 +24,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BooleanSupplier;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
@@ -134,8 +132,9 @@ public final class NativeReviewSmoke {
                 @Override public void windowOpened(WindowEvent event) { opened.set(true); }
             });
             window.setContentPane(panel);
-            window.setMinimumSize(new Dimension(960, 720));
-            window.setSize(1320, 940);
+            window.setMinimumSize(new Dimension(900, 620));
+            // A common student laptop: 1366×768 with a taskbar.
+            window.setSize(ReviewFrame.initialSize(new java.awt.Rectangle(0, 0, 1366, 728)));
             window.setLocationRelativeTo(null);
             window.setVisible(true);
             return null;
@@ -144,6 +143,13 @@ public final class NativeReviewSmoke {
                 && panel.isShowing() && window.getGraphicsConfiguration() != null,
                 "Visible native window and component peer");
         evidence.put("nativeWindowOpenedAndShowing", true);
+        edt(() -> {
+            JButton export = button("Export reviewed PDF…");
+            java.awt.Point at = SwingUtilities.convertPoint(export.getParent(), export.getLocation(), panel);
+            require(at.y + export.getHeight() <= panel.getHeight() && at.x + export.getWidth() <= panel.getWidth(), "Export button is outside the window at 1366×768.");
+            return null;
+        });
+        evidence.put("exportVisibleAt1366x768", true);
         evidence.put("lookAndFeel", edt(() -> UIManager.getLookAndFeel().getName()));
         edt(() -> {
             panel.selectInputs(original, revised);
@@ -159,8 +165,8 @@ public final class NativeReviewSmoke {
             require(table.getRowCount() == 4, "Expected four annotation findings.");
             require(!button("Export reviewed PDF…").isEnabled(), "Export enabled before review.");
             table.setRowSelectionInterval(1, 1);
-            JComboBox<?> candidates = component(panel, JComboBox.class);
-            require(candidates.getItemCount() == 2, "Expected two repeated-text destinations.");
+            JList<?> candidates = component(panel, JList.class);
+            require(candidates.getModel().getSize() == 2, "Expected two repeated-text destinations.");
             candidates.setSelectedIndex(1);
             button("Approve").doClick(0);
             require(model.choice(model.entries().get(1)) == 1, "Second destination was not approved.");
@@ -225,11 +231,11 @@ public final class NativeReviewSmoke {
     }
 
     private static boolean previewsReady() {
-        JLabel original = preview(panel, "Original annotation preview");
-        JLabel revised = preview(panel, "Revised destination preview");
+        ReviewFrame.PreviewPane original = preview(panel, "Original annotation preview");
+        ReviewFrame.PreviewPane revised = preview(panel, "Revised destination preview");
         return original != null && revised != null
-                && original.getIcon() instanceof ImageIcon old && old.getIconWidth() > 100
-                && revised.getIcon() instanceof ImageIcon next && next.getIconHeight() > 100;
+                && original.image() != null && original.image().getWidth() > 100
+                && revised.image() != null && revised.image().getHeight() > 100;
     }
 
     private static void require(boolean condition, String message) { if (!condition) throw new AssertionError(message); }
@@ -270,10 +276,10 @@ public final class NativeReviewSmoke {
         return null;
     }
 
-    private static JLabel preview(Container parent, String name) {
+    private static ReviewFrame.PreviewPane preview(Container parent, String name) {
         for (Component child : parent.getComponents()) {
-            if (child instanceof JLabel label && name.equals(label.getAccessibleContext().getAccessibleName())) return label;
-            if (child instanceof Container nested) { JLabel found = preview(nested, name); if (found != null) return found; }
+            if (child instanceof ReviewFrame.PreviewPane pane && name.equals(pane.getAccessibleContext().getAccessibleName())) return pane;
+            if (child instanceof Container nested) { ReviewFrame.PreviewPane found = preview(nested, name); if (found != null) return found; }
         }
         return null;
     }

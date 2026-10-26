@@ -3,6 +3,7 @@ package net.whago.annotrail;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -52,12 +53,19 @@ public final class ReviewFrame extends JPanel {
     private final JLabel decision = new JLabel("No decision");
     private final JTextArea details = area(5);
     private final JTextArea context = area(3);
-    private final JComboBox<String> candidates = new JComboBox<>();
+    private final DefaultListModel<Candidate> candidateItems = new DefaultListModel<>();
+    private final JList<Candidate> candidates = new JList<>(candidateItems) {
+        // Rows follow the visible width; long matches end in an ellipsis instead of scrolling sideways.
+        @Override public boolean getScrollableTracksViewportWidth() { return true; }
+    };
+    private final JButton fitWidth = button("Fit width", KeyEvent.VK_W);
+    private final JButton zoomOut = button("−", KeyEvent.VK_MINUS);
+    private final JButton zoomIn = button("+", KeyEvent.VK_PLUS);
     private final JProgressBar progress = new JProgressBar();
     private final FindingsTable tableModel = new FindingsTable();
     private final JTable table = new JTable(tableModel);
-    private final JLabel beforeImage = previewLabel("Original annotation preview");
-    private final JLabel afterImage = previewLabel("Revised destination preview");
+    private final PreviewPane beforeImage = new PreviewPane("Original annotation preview");
+    private final PreviewPane afterImage = new PreviewPane("Revised destination preview");
     private final JLabel beforeTitle = new JLabel("Original PDF");
     private final JLabel afterTitle = new JLabel("Revised PDF");
     private final ThreadPoolExecutor previewExecutor = new ThreadPoolExecutor(1, 1, 0, TimeUnit.MILLISECONDS,
@@ -79,11 +87,17 @@ public final class ReviewFrame extends JPanel {
             frame.setContentPane(panel);
             frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
             frame.addWindowListener(new WindowAdapter() { @Override public void windowClosing(WindowEvent event) { panel.requestClose(); } });
-            frame.setMinimumSize(new Dimension(960, 720));
-            frame.setSize(1320, 940);
+            frame.setMinimumSize(new Dimension(900, 620));
+            frame.setSize(initialSize(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()));
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
+    }
+
+    /** Fits a 1366×768 laptop: the usable screen area minus a margin, at most 1320×940. */
+    static Dimension initialSize(Rectangle usable) {
+        int width = Math.min(1320, usable.width - 32), height = Math.min(940, usable.height - 32);
+        return new Dimension(Math.max(900, width), Math.max(620, height));
     }
 
     public ReviewFrame() { this(new ReviewModel()); }
@@ -91,8 +105,8 @@ public final class ReviewFrame extends JPanel {
     ReviewFrame(ReviewModel reviewModel, MessageHandler messageHandler) {
         model = reviewModel;
         messages = messageHandler;
-        setLayout(new BorderLayout(0, 14));
-        setBorder(new EmptyBorder(20, 24, 16, 24));
+        setLayout(new BorderLayout(0, 10));
+        setBorder(new EmptyBorder(14, 20, 12, 20));
         setBackground(BG);
         add(header(), BorderLayout.NORTH);
         add(workspace(), BorderLayout.CENTER);
@@ -106,12 +120,12 @@ public final class ReviewFrame extends JPanel {
     private JComponent header() {
         JPanel header = vertical();
         JLabel title = new JLabel("Annotrail");
-        title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 28));
+        title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
         title.setForeground(INK);
         header.add(title);
         JLabel subtitle = new JLabel("Carry annotations into a revised PDF, with every transfer reviewed.");
         subtitle.setForeground(MUTED);
-        subtitle.setBorder(new EmptyBorder(5, 0, 13, 0));
+        subtitle.setBorder(new EmptyBorder(3, 0, 9, 0));
         header.add(subtitle);
         JPanel inputs = new JPanel(new GridBagLayout());
         inputs.setOpaque(false);
@@ -119,8 +133,11 @@ public final class ReviewFrame extends JPanel {
         g.insets = new Insets(3, 0, 3, 10); g.anchor = GridBagConstraints.WEST;
         addInputRow(inputs, g, 0, "1  Original annotated PDF", oldPath, oldBrowse);
         addInputRow(inputs, g, 1, "2  Revised PDF", newPath, newBrowse);
-        g.gridy = 2; g.gridx = 1; g.gridwidth = 2; g.weightx = 1;
-        JPanel actions = row(analyze, cancel);
+        g.gridy = 2; g.gridx = 1; g.gridwidth = 2; g.weightx = 1; g.fill = GridBagConstraints.HORIZONTAL;
+        // Export sits at the top so it stays on screen on short laptop displays.
+        JPanel actions = new JPanel(new BorderLayout()); actions.setOpaque(false);
+        actions.add(row(analyze, cancel), BorderLayout.WEST);
+        actions.add(row(export), BorderLayout.EAST);
         inputs.add(actions, g);
         header.add(inputs);
         return header;
@@ -166,21 +183,28 @@ public final class ReviewFrame extends JPanel {
         decision.setForeground(ACCENT); decision.setBorder(new EmptyBorder(5, 0, 7, 0)); top.add(decision);
         details.setBackground(Color.WHITE); details.setBorder(new EmptyBorder(8, 10, 8, 10));
         details.getAccessibleContext().setAccessibleName("Original annotation and matching reason");
-        JScrollPane detailsScroll = new JScrollPane(details); detailsScroll.setPreferredSize(new Dimension(550, 110)); top.add(detailsScroll);
-        JPanel candidateRow = new JPanel(new BorderLayout(8, 0)); candidateRow.setOpaque(false); candidateRow.setBorder(new EmptyBorder(9, 0, 6, 0));
-        JLabel candidateLabel = new JLabel("Destination"); candidateLabel.setLabelFor(candidates); candidateRow.add(candidateLabel, BorderLayout.WEST);
-        candidates.getAccessibleContext().setAccessibleName("Candidate destination");
-        DefaultListCellRenderer candidateRenderer = new DefaultListCellRenderer(); candidateRenderer.putClientProperty("html.disable", Boolean.TRUE); candidates.setRenderer(candidateRenderer);
-        candidateRow.add(candidates, BorderLayout.CENTER); top.add(candidateRow);
+        JScrollPane detailsScroll = new JScrollPane(details); detailsScroll.setPreferredSize(new Dimension(550, 84)); top.add(detailsScroll);
+        JLabel candidateLabel = new JLabel("Destinations"); candidateLabel.setLabelFor(candidates); candidateLabel.setForeground(INK);
+        candidateLabel.setBorder(new EmptyBorder(8, 0, 4, 0)); top.add(candidateLabel);
+        candidates.getAccessibleContext().setAccessibleName("Candidate destinations");
+        candidates.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        candidates.setCellRenderer(new CandidateRenderer());
+        JScrollPane candidateScroll = new JScrollPane(candidates, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        candidateScroll.setPreferredSize(new Dimension(550, 96)); top.add(candidateScroll);
         context.setBackground(BG); context.setForeground(MUTED); context.getAccessibleContext().setAccessibleName("Destination context");
-        JScrollPane contextScroll = new JScrollPane(context); contextScroll.setPreferredSize(new Dimension(550, 66)); top.add(contextScroll);
+        JScrollPane contextScroll = new JScrollPane(context); contextScroll.setPreferredSize(new Dimension(550, 50)); top.add(contextScroll);
         approve.setToolTipText("Approve the selected destination for this finding."); skip.setToolTipText("Skip this finding and keep its original comment in the JSON report."); reset.setToolTipText("Remove the current decision so this finding must be reviewed again.");
-        JPanel decisions = row(approve, skip, reset); decisions.setBorder(new EmptyBorder(7, 0, 0, 0)); top.add(decisions);
+        JPanel decisions = new JPanel(new BorderLayout()); decisions.setOpaque(false); decisions.setBorder(new EmptyBorder(7, 0, 0, 0));
+        decisions.add(row(approve, skip, reset), BorderLayout.WEST);
+        fitWidth.setToolTipText("Fit both previews to their width."); zoomOut.setToolTipText("Zoom out"); zoomIn.setToolTipText("Zoom in");
+        zoomOut.getAccessibleContext().setAccessibleName("Zoom out"); zoomIn.getAccessibleContext().setAccessibleName("Zoom in");
+        decisions.add(row(fitWidth, zoomOut, zoomIn), BorderLayout.EAST);
+        top.add(decisions);
         review.add(top, BorderLayout.NORTH);
         JSplitPane previews = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                 previewPanel(beforeTitle, beforeImage), previewPanel(afterTitle, afterImage));
         previews.setResizeWeight(.5); previews.setBorder(null); previews.setContinuousLayout(true);
-        review.add(previews, BorderLayout.CENTER); review.setMinimumSize(new Dimension(420, 300));
+        review.add(previews, BorderLayout.CENTER); review.setMinimumSize(new Dimension(420, 260));
         JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, findings, review);
         split.setResizeWeight(.37); split.setDividerLocation(450); split.setBorder(null); split.setContinuousLayout(true);
         return split;
@@ -192,7 +216,7 @@ public final class ReviewFrame extends JPanel {
         status.setForeground(MUTED); status.getAccessibleContext().setAccessibleName("Task status");
         progress.setPreferredSize(new Dimension(240, 5)); progress.setVisible(false);
         statusPanel.add(status, BorderLayout.NORTH); statusPanel.add(progress, BorderLayout.SOUTH);
-        footer.add(statusPanel, BorderLayout.CENTER); footer.add(export, BorderLayout.EAST);
+        footer.add(statusPanel, BorderLayout.CENTER);
         export.setToolTipText("Available after every finding has an explicit approve or skip decision. Creates new PDF and JSON files.");
         return footer;
     }
@@ -204,11 +228,14 @@ public final class ReviewFrame extends JPanel {
         table.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) { model.select(table.getSelectedRow()); refreshSelected(); }
         });
-        candidates.addActionListener(e -> {
-            if (!changingCandidate && candidates.getSelectedIndex() >= 0 && model.selectedEntry() != null) {
+        candidates.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && !changingCandidate && candidates.getSelectedIndex() >= 0 && model.selectedEntry() != null) {
                 model.selectCandidate(candidates.getSelectedIndex()); refreshCandidate(); refreshControls();
             }
         });
+        fitWidth.addActionListener(e -> { beforeImage.fitWidth(); afterImage.fitWidth(); });
+        zoomOut.addActionListener(e -> { beforeImage.zoom(1 / 1.25); afterImage.zoom(1 / 1.25); });
+        zoomIn.addActionListener(e -> { beforeImage.zoom(1.25); afterImage.zoom(1.25); });
         approve.addActionListener(e -> decide(() -> model.approve(), "Destination approved."));
         skip.addActionListener(e -> decide(() -> model.skip(), "Finding skipped. Its original comment remains in the report."));
         reset.addActionListener(e -> decide(() -> model.resetDecision(), "Decision reset. This finding must be reviewed again."));
@@ -324,16 +351,14 @@ public final class ReviewFrame extends JPanel {
         decision.setText(entry == null ? "No finding selected" : value == null ? "Unreviewed — approve a destination or explicitly skip" : value == -1 ? "Skipped — retained in reconciliation report" : "Approved — destination " + (value + 1));
     }
     private void refreshSelected() {
-        Entry entry = model.selectedEntry(); changingCandidate = true; candidates.removeAllItems();
+        Entry entry = model.selectedEntry(); changingCandidate = true; candidateItems.clear();
         if (entry == null) {
             selectedTitle.setText("Select a finding to review"); details.setText("The original PDFs are preserved. Export creates new files after you review every finding."); context.setText("");
         } else {
             selectedTitle.setText("Page " + entry.sourcePage() + " · " + safe(entry.type()) + " · " + statusName(entry.status()));
             details.setText("Selected text: " + displayText(entry.quote(), 10000) + "\nComment: " + displayText(entry.comment(), 10000) + "\nAuthor: " + displayText(entry.author(), 1000) + "\nReason: " + displayText(entry.reason(), 3000));
-            for (int i = 0; i < entry.candidates().size(); i++) {
-                Candidate c = entry.candidates().get(i); candidates.addItem((i + 1) + " · Page " + c.page() + " · " + shortText(c.context(), 110));
-            }
-            if (model.selectedCandidate() >= 0) candidates.setSelectedIndex(model.selectedCandidate());
+            for (Candidate c : entry.candidates()) candidateItems.addElement(c);
+            if (model.selectedCandidate() >= 0) { candidates.setSelectedIndex(model.selectedCandidate()); candidates.ensureIndexIsVisible(model.selectedCandidate()); }
         }
         changingCandidate = false; details.setCaretPosition(0); refreshDecision(); refreshCandidate(); refreshControls();
     }
@@ -347,6 +372,8 @@ public final class ReviewFrame extends JPanel {
         oldBrowse.setEnabled(!busy); newBrowse.setEnabled(!busy); analyze.setEnabled(!busy && original != null && revised != null);
         cancel.setEnabled(busy && !cancelRequested.get());
         table.setEnabled(!busy); candidates.setEnabled(!busy && entry != null && !entry.candidates().isEmpty());
+        boolean previewing = beforeImage.image() != null || afterImage.image() != null;
+        fitWidth.setEnabled(previewing); zoomOut.setEnabled(previewing); zoomIn.setEnabled(previewing);
         approve.setEnabled(!busy && model.candidate() != null); skip.setEnabled(!busy && entry != null); reset.setEnabled(!busy && entry != null && model.choice(entry) != null);
         acceptConfident.setEnabled(!busy && model.entries().stream().anyMatch(e -> "confident".equals(e.status()) && e.candidates().size() == 1 && model.choice(e) == null));
         skipUnreviewed.setEnabled(!busy && model.unreviewedCount() > 0); export.setEnabled(!busy && model.canExport() && analyzedOriginal != null);
@@ -362,24 +389,29 @@ public final class ReviewFrame extends JPanel {
 
     private void requestPreviews() {
         cancelPreviews(); Entry entry = model.selectedEntry(); Candidate candidate = model.candidate();
-        if (closed || busy || entry == null || analyzedOriginal == null || analyzedRevised == null) { showPreview(beforeImage, null, "Select a finding for the original preview."); showPreview(afterImage, null, "Select a finding for its destination preview."); return; }
+        if (closed || busy || entry == null || analyzedOriginal == null || analyzedRevised == null) { beforeImage.show(null, null, "Select a finding for the original preview."); afterImage.show(null, null, "Select a finding for its destination preview."); return; }
         long generation = previewGeneration; Path old = analyzedOriginal, next = analyzedRevised;
         beforeTitle.setText("Original · page " + entry.sourcePage()); afterTitle.setText(candidate == null ? "Revised · no destination" : "Revised · page " + candidate.page());
-        showPreview(beforeImage, null, "Rendering page…"); showPreview(afterImage, null, candidate == null ? "No destination to preview." : "Rendering page…");
+        beforeImage.show(null, null, "Rendering page…"); afterImage.show(null, null, candidate == null ? "No destination to preview." : "Rendering page…");
         previewTask = previewExecutor.submit(() -> {
             renderAndPublish(old, entry.sourcePage(), List.of(), beforeImage, generation);
             if (!Thread.currentThread().isInterrupted() && candidate != null) renderAndPublish(next, candidate.page(), candidate.quads(), afterImage, generation);
         });
     }
-    private void renderAndPublish(Path pdf, int page, List<Float> quads, JLabel target, long generation) {
+    private void renderAndPublish(Path pdf, int page, List<Float> quads, PreviewPane target, long generation) {
         try {
-            BufferedImage result = renderPreview(pdf, page, quads);
-            SwingUtilities.invokeLater(() -> { if (!closed && generation == previewGeneration) showPreview(target, result, ""); });
+            Rendered result = render(pdf, page, quads);
+            SwingUtilities.invokeLater(() -> { if (!closed && generation == previewGeneration) { target.show(result.image(), result.highlight(), ""); refreshControls(); } });
         } catch (Exception e) {
-            SwingUtilities.invokeLater(() -> { if (!closed && generation == previewGeneration) showPreview(target, null, "Preview unavailable. The full PDF can still be reviewed externally."); });
+            SwingUtilities.invokeLater(() -> { if (!closed && generation == previewGeneration) target.show(null, null, "Preview unavailable. The full PDF can still be reviewed externally."); });
         }
     }
-    static BufferedImage renderPreview(Path path, int page, List<Float> quads) throws IOException {
+    /** A rendered page and the destination highlight in image pixels, if any. */
+    record Rendered(BufferedImage image, Rectangle2D highlight) { }
+
+    static BufferedImage renderPreview(Path path, int page, List<Float> quads) throws IOException { return render(path, page, quads).image(); }
+
+    static Rendered render(Path path, int page, List<Float> quads) throws IOException {
         if (Thread.currentThread().isInterrupted()) throw new InterruptedIOException("Preview cancelled.");
         try (PDDocument doc = Loader.loadPDF(path.toFile())) {
             if (page < 1 || page > doc.getNumberOfPages()) throw new IOException("Preview page is unavailable.");
@@ -391,6 +423,7 @@ public final class ReviewFrame extends JPanel {
             PDFRenderer renderer = new PDFRenderer(doc); renderer.setSubsamplingAllowed(true);
             BufferedImage image = renderer.renderImage(page - 1, scale, ImageType.RGB);
             if (Thread.currentThread().isInterrupted()) throw new InterruptedIOException("Preview cancelled.");
+            Rectangle2D highlight = null;
             if (doc.getPage(page - 1).getRotation() == 0 && quads != null && quads.size() % 8 == 0) {
                 Graphics2D g = image.createGraphics();
                 try {
@@ -402,10 +435,11 @@ public final class ReviewFrame extends JPanel {
                             if (j == 0) polygon.moveTo(x, y); else polygon.lineTo(x, y);
                         }
                         polygon.closePath(); g.setColor(new Color(0, 140, 145, 65)); g.fill(polygon); g.setColor(ACCENT); g.draw(polygon);
+                        highlight = highlight == null ? polygon.getBounds2D() : highlight.createUnion(polygon.getBounds2D());
                     }
                 } finally { g.dispose(); }
             }
-            return image;
+            return new Rendered(image, highlight);
         }
     }
     private void cancelPreviews() { previewGeneration++; if (previewTask != null) previewTask.cancel(true); previewExecutor.getQueue().clear(); }
@@ -433,9 +467,90 @@ public final class ReviewFrame extends JPanel {
     private static JTextArea area(int rows) { JTextArea a = new JTextArea(rows, 25); a.setEditable(false); a.setFocusTraversalKeysEnabled(true); a.setLineWrap(true); a.setWrapStyleWord(true); a.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12)); return a; }
     private static JPanel vertical() { JPanel panel = new JPanel() { @Override protected void addImpl(Component component, Object constraints, int index) { if (component instanceof JComponent child) child.setAlignmentX(Component.LEFT_ALIGNMENT); if (component instanceof JLabel label) label.setMaximumSize(new Dimension(Integer.MAX_VALUE, label.getPreferredSize().height)); super.addImpl(component, constraints, index); } }; panel.setOpaque(false); panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); return panel; }
     private static JPanel row(Component... components) { JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0)); p.setOpaque(false); for (Component c : components) p.add(c); return p; }
-    private static JLabel previewLabel(String accessibleName) { JLabel label = new JLabel("Choose PDFs and analyze to see previews.", SwingConstants.CENTER); label.setVerticalAlignment(SwingConstants.TOP); label.setOpaque(true); label.setBackground(new Color(226, 231, 234)); label.setForeground(MUTED); label.setBorder(new EmptyBorder(10, 10, 10, 10)); label.getAccessibleContext().setAccessibleName(accessibleName); return label; }
-    private static JComponent previewPanel(JLabel title, JLabel image) { JPanel panel = new JPanel(new BorderLayout(0, 6)); panel.setOpaque(false); title.setForeground(INK); panel.add(title, BorderLayout.NORTH); JScrollPane scroll = new JScrollPane(image); scroll.setPreferredSize(new Dimension(290, 310)); panel.add(scroll, BorderLayout.CENTER); panel.setMinimumSize(new Dimension(100, 100)); return panel; }
-    private static void showPreview(JLabel target, BufferedImage image, String text) { target.setIcon(image == null ? null : new ImageIcon(image)); target.setText(image == null ? text : ""); }
+    private static JComponent previewPanel(JLabel title, PreviewPane image) { JPanel panel = new JPanel(new BorderLayout(0, 6)); panel.setOpaque(false); title.setForeground(INK); panel.add(title, BorderLayout.NORTH); JScrollPane scroll = new JScrollPane(image); scroll.setPreferredSize(new Dimension(290, 240)); scroll.getViewport().setBackground(new Color(226, 231, 234)); panel.add(scroll, BorderLayout.CENTER); panel.setMinimumSize(new Dimension(100, 100)); return panel; }
+
+    /** Two-line destination entry: number and page, then the matching text. Never renders HTML. */
+    private static final class CandidateRenderer extends JPanel implements ListCellRenderer<Candidate> {
+        private final JLabel heading = new JLabel(), text = new JLabel();
+        CandidateRenderer() {
+            super(new BorderLayout(0, 2)); setBorder(new EmptyBorder(5, 8, 5, 8));
+            heading.putClientProperty("html.disable", Boolean.TRUE); text.putClientProperty("html.disable", Boolean.TRUE);
+            heading.setFont(heading.getFont().deriveFont(Font.BOLD)); text.setFont(text.getFont().deriveFont(Font.PLAIN));
+            add(heading, BorderLayout.NORTH); add(text, BorderLayout.CENTER);
+        }
+        @Override public Component getListCellRendererComponent(JList<? extends Candidate> list, Candidate candidate, int index, boolean selected, boolean focused) {
+            heading.setText((index + 1) + " · Page " + candidate.page());
+            text.setText(shortText(candidate.context(), 160));
+            text.setMinimumSize(new Dimension(0, text.getPreferredSize().height)); text.setPreferredSize(new Dimension(1, text.getPreferredSize().height));
+            Color background = selected ? list.getSelectionBackground() : list.getBackground();
+            Color foreground = selected ? list.getSelectionForeground() : INK;
+            setBackground(background); heading.setForeground(foreground); text.setForeground(selected ? foreground : MUTED);
+            setOpaque(true); setToolTipText(null);
+            return this;
+        }
+    }
+
+    /** A page preview that fits its viewport width by default and can zoom; scrolls to the highlight. */
+    static final class PreviewPane extends JComponent implements Scrollable {
+        private BufferedImage image; private Rectangle2D highlight; private String message = "Choose PDFs and analyze to see previews.";
+        private double zoom; // 0 fits the viewport width
+        PreviewPane(String accessibleName) { setOpaque(true); setBackground(new Color(226, 231, 234)); setForeground(MUTED); getAccessibleContext().setAccessibleName(accessibleName); }
+        @Override public javax.accessibility.AccessibleContext getAccessibleContext() {
+            if (accessibleContext == null) accessibleContext = new AccessibleJComponent() {
+                @Override public javax.accessibility.AccessibleRole getAccessibleRole() { return javax.accessibility.AccessibleRole.CANVAS; }
+            };
+            return accessibleContext;
+        }
+        BufferedImage image() { return image; }
+        void show(BufferedImage next, Rectangle2D area, String text) { image = next; highlight = area; message = text; revalidate(); repaint(); revealLater(); }
+        void fitWidth() { zoom = 0; revalidate(); repaint(); revealLater(); }
+        void zoom(double factor) { zoom = Math.max(.25, Math.min(3, scale() * factor)); revalidate(); repaint(); revealLater(); }
+        double scale() {
+            if (image == null) return 1;
+            if (zoom > 0) return zoom;
+            int width = getParent() instanceof JViewport viewport ? viewport.getWidth() : getWidth();
+            return width <= 0 ? 1 : Math.min(1.5, (double)width / image.getWidth());
+        }
+        private void revealLater() {
+            if (highlight == null) return;
+            SwingUtilities.invokeLater(() -> {
+                if (highlight == null) return;
+                double s = scale();
+                scrollRectToVisible(new Rectangle((int)(highlight.getX() * s) - 40, (int)(highlight.getY() * s) - 80, (int)(highlight.getWidth() * s) + 80, (int)(highlight.getHeight() * s) + 160));
+            });
+        }
+        @Override public Dimension getPreferredSize() {
+            if (image == null) return new Dimension(200, 160);
+            double s = scale();
+            return new Dimension((int)Math.ceil(image.getWidth() * s), (int)Math.ceil(image.getHeight() * s));
+        }
+        @Override protected void paintComponent(Graphics graphics) {
+            Graphics2D g = (Graphics2D)graphics.create();
+            try {
+                g.setColor(getBackground()); g.fillRect(0, 0, getWidth(), getHeight());
+                if (image != null) {
+                    double s = scale();
+                    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                    g.drawImage(image, 0, 0, (int)Math.round(image.getWidth() * s), (int)Math.round(image.getHeight() * s), null);
+                } else if (message != null && !message.isEmpty()) {
+                    g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                    g.setColor(getForeground()); g.setFont(UIManager.getFont("Label.font"));
+                    FontMetrics metrics = g.getFontMetrics(); int y = 16 + metrics.getAscent(); StringBuilder line = new StringBuilder();
+                    for (String word : message.split(" ")) {
+                        String next = line.isEmpty() ? word : line + " " + word;
+                        if (metrics.stringWidth(next) > getWidth() - 20 && !line.isEmpty()) { g.drawString(line.toString(), (getWidth() - metrics.stringWidth(line.toString())) / 2, y); y += metrics.getHeight(); line = new StringBuilder(word); }
+                        else line = new StringBuilder(next);
+                    }
+                    if (!line.isEmpty()) g.drawString(line.toString(), (getWidth() - metrics.stringWidth(line.toString())) / 2, y);
+                }
+            } finally { g.dispose(); }
+        }
+        @Override public Dimension getPreferredScrollableViewportSize() { return new Dimension(290, 240); }
+        @Override public int getScrollableUnitIncrement(Rectangle visible, int orientation, int direction) { return 24; }
+        @Override public int getScrollableBlockIncrement(Rectangle visible, int orientation, int direction) { return Math.max(24, (orientation == SwingConstants.VERTICAL ? visible.height : visible.width) - 24); }
+        @Override public boolean getScrollableTracksViewportWidth() { return zoom == 0 || image == null; }
+        @Override public boolean getScrollableTracksViewportHeight() { return image == null; }
+    }
     private static JFileChooser pdfChooser(String title) { JFileChooser c = new JFileChooser(); c.setDialogTitle(title); c.setFileFilter(new FileNameExtensionFilter("PDF documents (*.pdf)", "pdf")); return c; }
 
     private final class FindingsTable extends AbstractTableModel {
