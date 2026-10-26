@@ -74,6 +74,33 @@ class ReviewFrameTest {
         if (failure.get() != null) throw new AssertionError(failure.get());
     }
 
+    @Test void windowFitsCommonLaptopScreens() {
+        assertEquals(new Dimension(1320, 696), ReviewFrame.initialSize(new Rectangle(0, 0, 1366, 728)));
+        assertEquals(new Dimension(1320, 828), ReviewFrame.initialSize(new Rectangle(0, 0, 1440, 860)));
+        assertEquals(new Dimension(1320, 940), ReviewFrame.initialSize(new Rectangle(0, 0, 2560, 1400)));
+    }
+
+    @Test void exportIsAtTheTopAndDestinationsAreAList() throws Exception {
+        AtomicReference<Throwable> failure = new AtomicReference<>();
+        SwingUtilities.invokeAndWait(() -> {
+            ReviewFrame panel = null;
+            try {
+                ReviewModel model = new ReviewModel();
+                model.load(ReviewModelTest.plan(ReviewModelTest.entry("b", "ambiguous", ReviewModelTest.candidate(1), ReviewModelTest.candidate(3))));
+                panel = new ReviewFrame(model); panel.setSize(1320, 696); layout(panel);
+                JButton export = findButton(panel, "Export reviewed PDF…");
+                JTable table = find(panel, JTable.class);
+                Point exportAt = SwingUtilities.convertPoint(export.getParent(), export.getLocation(), panel);
+                Point tableAt = SwingUtilities.convertPoint(table.getParent(), table.getLocation(), panel);
+                assertTrue(exportAt.y < tableAt.y, "Export must sit above the findings, not at the bottom edge");
+                JList<?> list = find(panel, JList.class);
+                assertEquals(2, list.getModel().getSize());
+                list.setSelectedIndex(1); assertEquals(1, model.selectedCandidate());
+            } catch (Throwable t) { failure.set(t); } finally { if (panel != null) panel.shutdown(); }
+        });
+        if (failure.get() != null) throw new AssertionError(failure.get());
+    }
+
     private Path createPdf(String name, PDRectangle box) throws Exception {
         Path path = temporary.resolve(name);
         try (PDDocument document = new PDDocument()) {

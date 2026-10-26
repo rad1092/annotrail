@@ -51,8 +51,8 @@ class ReviewWorkflowTest {
                 assertFalse(button(frame, "Export reviewed PDF…").isEnabled());
                 assertThrows(IllegalStateException.class, () -> frame.exportTo(output, report));
                 table.setRowSelectionInterval(1, 1);
-                JComboBox<?> candidates = component(frame, JComboBox.class);
-                assertEquals(2, candidates.getItemCount()); candidates.setSelectedIndex(1);
+                JList<?> candidates = component(frame, JList.class);
+                assertEquals(2, candidates.getModel().getSize()); candidates.setSelectedIndex(1);
                 button(frame, "Approve").doClick(0); assertEquals(1, model.choice(model.entries().get(1)));
                 table.setRowSelectionInterval(0, 0); button(frame, "Approve").doClick(0);
                 table.setRowSelectionInterval(2, 2); assertFalse(button(frame, "Approve").isEnabled()); button(frame, "Skip").doClick(0);
@@ -62,10 +62,10 @@ class ReviewWorkflowTest {
                 table.setRowSelectionInterval(1, 1); assertEquals(1, candidates.getSelectedIndex());
                 return null;
             });
-            await(() -> preview(frame, "Original annotation preview").getIcon() != null && preview(frame, "Revised destination preview").getIcon() != null);
+            await(() -> preview(frame, "Original annotation preview").image() != null && preview(frame, "Revised destination preview").image() != null);
             edt(() -> {
-                assertTrue(((ImageIcon) preview(frame, "Original annotation preview").getIcon()).getIconWidth() > 100);
-                assertTrue(((ImageIcon) preview(frame, "Revised destination preview").getIcon()).getIconHeight() > 100);
+                assertTrue(preview(frame, "Original annotation preview").image().getWidth() > 100);
+                assertTrue(preview(frame, "Revised destination preview").image().getHeight() > 100);
                 layout(frame);
                 for (String text : List.of("Page 1 · Underline · Needs review", "Approved — destination 2", "2 approved   ·   2 skipped   ·   0 unreviewed", "1 unique · 1 review · 1 not found · 1 unsupported")) {
                     JLabel label = label(frame, text); assertNotNull(label, text);
@@ -135,5 +135,5 @@ class ReviewWorkflowTest {
     private static <T> T component(Container parent, Class<T> type) { for (Component c : parent.getComponents()) { if (type.isInstance(c)) return type.cast(c); if (c instanceof Container nested) { T found = component(nested, type); if (found != null) return found; } } return null; }
     private static JButton button(Container parent, String text) { for (Component c : parent.getComponents()) { if (c instanceof JButton b && b.getText().equals(text)) return b; if (c instanceof Container nested) { JButton found = button(nested, text); if (found != null) return found; } } return null; }
     private static JLabel label(Container parent, String text) { for (Component c : parent.getComponents()) { if (c instanceof JLabel label && text.equals(label.getText())) return label; if (c instanceof Container nested) { JLabel found = label(nested, text); if (found != null) return found; } } return null; }
-    private static JLabel preview(Container parent, String name) { for (Component c : parent.getComponents()) { if (c instanceof JLabel label && name.equals(label.getAccessibleContext().getAccessibleName())) return label; if (c instanceof Container nested) { JLabel found = preview(nested, name); if (found != null) return found; } } return null; }
+    private static ReviewFrame.PreviewPane preview(Container parent, String name) { for (Component c : parent.getComponents()) { if (c instanceof ReviewFrame.PreviewPane pane && name.equals(pane.getAccessibleContext().getAccessibleName())) return pane; if (c instanceof Container nested) { ReviewFrame.PreviewPane found = preview(nested, name); if (found != null) return found; } } return null; }
 }

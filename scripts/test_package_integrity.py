@@ -29,7 +29,7 @@ class SupportFileRebuildTests(unittest.TestCase):
             script = root / 'scripts/package.py'
             shutil.copy2(Path(__file__).with_name('package.py'), script)
             (root / 'target').mkdir()
-            (root / 'target/annotrail-0.1.3.jar').write_bytes(b'synthetic jar')
+            (root / 'target/annotrail-0.1.4.jar').write_bytes(b'synthetic jar')
             for name in ('README.md', 'LICENSE', 'NOTICE', 'THIRD_PARTY_NOTICES.md', 'SECURITY.md'):
                 (root / name).write_text('Synthetic support fixture\n')
             for name in ('docs', 'examples'):
@@ -42,7 +42,7 @@ class SupportFileRebuildTests(unittest.TestCase):
                 (app / 'lib/runtime/legal').mkdir(parents=True)
                 (app / 'launcher').write_bytes(b'synthetic launcher')
 
-            archive = root / 'dist/annotrail-0.1.3-linux-qa.zip'
+            archive = root / 'dist/annotrail-0.1.4-linux-qa.zip'
             with mock.patch.dict(os.environ, {'JAVA_HOME': str(root / 'jdk')}), \
                     mock.patch.object(sys, 'argv', [str(script), '--skip-build']), \
                     mock.patch('platform.system', return_value='Linux'), \

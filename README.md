@@ -5,6 +5,12 @@ Choose the annotated old PDF and its new revision, inspect matching text and pag
 previews, then export approved annotations into a new PDF. Original files stay
 unchanged. Everything runs on your computer, without accounts, uploads or AI.
 
+![Annotrail comparing a repeated phrase: two destinations on page 2, with the original and revised pages side by side](docs/screenshots/review.png)
+
+It works with PDFs that have **selectable text**: journal articles, publisher
+e-books and digital textbooks, notes exported from Word or LaTeX. Scanned pages
+without a text layer are not supported, and OCR text layers are not validated.
+
 Annotrail is useful when pages or line breaks move between paper drafts, course
 notes, or document editions. It searches text rather than copying old page
 coordinates. Exact text does not prove unchanged meaning: read the surrounding
@@ -20,11 +26,11 @@ SHA-256, then extract it into a folder you control. The app includes Java:
 - Windows: open `Annotrail/Annotrail.exe`.
 - Linux: run `Annotrail/bin/Annotrail` in a desktop session.
 
-macOS bundle build `4` corresponds to product version `0.1.3` (shown by `--version`).
+macOS bundle build `5` corresponds to product version `0.1.4` (shown by `--version`).
 The macOS app uses an ad-hoc signature to verify package integrity. It is not
 Developer ID signed or notarized; Windows launchers are not Authenticode signed.
 OS trust prompts may apply; no security protection needs to be disabled. Headless systems can
-use the included `annotrail-0.1.3.jar` with Java 17+.
+use the included `annotrail-0.1.4.jar` with Java 17+.
 
 To remove the app, close it and delete only the extracted app folder. No service,
 login item, browser extension, global configuration, or hidden user database is
@@ -38,20 +44,22 @@ a two-page revision, with one match, one ambiguous phrase, one missing phrase
 and one unsupported drawing. You can try the existing release without building
 Java or sharing a private document.
 
-1. Select **Old annotated PDF** and **Revised PDF**, then analyze.
-2. Select an annotation. Compare the old page with candidate positions on the
-   revised page, and read the quoted text/comment and surrounding context.
-3. Approve a candidate or explicitly skip it. “Accept confident” accepts only
-   unique exact-text suggestions; “Skip unresolved” is a separate decision.
-4. Export to a **new** PDF filename and a **new** JSON reconciliation report.
-   Existing annotations in the revised PDF remain in place.
+1. Select **Original annotated PDF** and **Revised PDF**, then **Analyze PDFs**.
+2. Select a finding. Its possible destinations are listed with their page and
+   text; choosing one moves the revised preview to it. Previews fit their width;
+   use **Fit width**, **−** and **+** to zoom.
+3. **Approve** a destination or explicitly **Skip** the finding. **Accept unique
+   matches** approves only unique exact-text suggestions; **Skip unreviewed** is a
+   separate decision.
+4. **Export reviewed PDF…** (top right) writes a **new** PDF and a **new** JSON
+   reconciliation report. Existing annotations in the revised PDF remain in place.
 5. Reopen the output in your normal PDF reader and review the transferred marks.
    The report retains skipped/unresolved annotation details for follow-up.
 
 | Classification | Meaning |
 |---|---|
 | Unique exact text | One sufficiently long exact normalized text match; still review context |
-| Review required | Repeated/short text or a sticky-note anchor; choose a candidate or skip |
+| Needs review | Repeated/short text or a sticky-note anchor; choose a destination or skip |
 | Not found | No exact text anchor found; wording may have changed or extraction failed |
 | Unsupported | Annotation or page geometry outside the supported scope |
 
@@ -75,19 +83,26 @@ rejected. This is a limited PDF editor, not a general hostile-PDF sandbox.
 
 ## Zotero
 
-Zotero stores its own annotations separately from the PDF by default. Export
-an annotated PDF using Zotero's **Export PDF** or reader **Save As** first.
-After Annotrail exports the revised PDF, add it as a **new attachment** and use
-Zotero's **Import Annotations** if you want editable Zotero annotations.
-Annotrail does not open or modify the Zotero database. See the
-[official annotation storage guide](https://www.zotero.org/support/kb/annotations_in_database).
+Zotero keeps annotations made in its reader in its own database, not in the PDF,
+so Annotrail cannot see them until they are written into a file:
+
+1. In Zotero, right-click the old attachment and choose **Export PDF…**. The
+   exported copy contains your highlights and notes.
+2. In Annotrail, use that copy as the original and the new revision as the
+   revised PDF. Review and export.
+3. Add the exported PDF to the same Zotero item as a new attachment, open it,
+   and choose **File → Import Annotations** to turn them back into editable
+   Zotero annotations.
+
+Annotrail does not open or modify the Zotero database. See Zotero's
+[annotation storage guide](https://www.zotero.org/support/kb/annotations_in_database).
 
 ## CLI and automation
 
 Java 17+ is required for the standalone JAR:
 
 ```sh
-java -Xmx512m -jar annotrail-0.1.3.jar analyze \
+java -Xmx512m -jar annotrail-0.1.4.jar analyze \
   --old annotated.pdf --new revision.pdf --plan plan.json
 ```
 
@@ -104,7 +119,7 @@ IDs above illustrate the format; always use the actual IDs in your plan. Every
 annotation must have a decision. Then:
 
 ```sh
-java -Xmx512m -jar annotrail-0.1.3.jar export \
+java -Xmx512m -jar annotrail-0.1.4.jar export \
   --old annotated.pdf --new revision.pdf --plan plan.json \
   --choices choices.json --output reviewed.pdf --report reconciliation.json
 ```
@@ -113,7 +128,7 @@ Alternatively, `--accept-confident` explicitly accepts unique exact matches and
 skips all unresolved entries. It is convenient for a reviewed plan, not a claim
 that unattended transfer is semantically safe. The engine reanalyzes inputs
 before export and rejects a stale or edited plan. After upgrading from an earlier version,
-analyze again to create a 0.1.3 review plan.
+analyze again to create a 0.1.4 review plan.
 
 Exit codes: `0` complete, `1` analysis has entries needing review, `2` input/output
 or resource error, `130` cooperative cancellation. Every output must be a new
@@ -139,8 +154,8 @@ JDK 17+ and Maven 3.9+:
 
 ```sh
 mvn -B verify
-java -Xmx512m -jar target/annotrail-0.1.3.jar --help
-java -Xmx512m -jar target/annotrail-0.1.3.jar gui
+java -Xmx512m -jar target/annotrail-0.1.4.jar --help
+java -Xmx512m -jar target/annotrail-0.1.4.jar gui
 ```
 
 `python3 scripts/package.py --skip-build` creates a runtime-included app image

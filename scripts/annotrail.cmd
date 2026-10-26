@@ -1,2 +1,2 @@
 @echo off
-java -Xmx512m -jar "%~dp0..\target\annotrail-0.1.3.jar" %*
+java -Xmx512m -jar "%~dp0..\target\annotrail-0.1.4.jar" %*
